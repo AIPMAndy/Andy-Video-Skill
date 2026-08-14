@@ -1,0 +1,28 @@
+{
+  "segments": [
+    {
+      "audio": "/Users/andy/.claude/skills/react-video/template/knowledge-video-config-firecrawl.example_work/audio/segments/step-00.mp3",
+      "target_duration_ms": 15000
+    },
+    {
+      "audio": "/Users/andy/.claude/skills/react-video/template/knowledge-video-config-firecrawl.example_work/audio/segments/step-01.mp3",
+      "target_duration_ms": 15000
+    },
+    {
+      "audio": "/Users/andy/.claude/skills/react-video/template/knowledge-video-config-firecrawl.example_work/audio/segments/step-02.mp3",
+      "target_duration_ms": 15000
+    },
+    {
+      "audio": "/Users/andy/.claude/skills/react-video/template/knowledge-video-config-firecrawl.example_work/audio/segments/step-03.mp3",
+      "target_duration_ms": 15000
+    },
+    {
+      "audio": "/Users/andy/.claude/skills/react-video/template/knowledge-video-config-firecrawl.example_work/audio/segments/step-04.mp3",
+      "target_duration_ms": 15000
+    },
+    {
+      "audio": "/Users/andy/.claude/skills/react-video/template/knowledge-video-config-firecrawl.example_work/audio/segments/step-05.mp3",
+      "target_duration_ms": 15000
+    }
+  ]
+}

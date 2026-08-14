@@ -1,0 +1,93 @@
+{
+  "underflow_mode": "pad-end",
+  "max_tail_padding": 0.55,
+  "minimum_tail_padding": 0.55,
+  "min_slot_duration": 0.0,
+  "preferred_tail_padding": 0.0,
+  "items": [
+    {
+      "index": 0,
+      "source_duration_sec": 12.672,
+      "content_duration_sec": 11.917917,
+      "target_slot_duration_sec": 15.0,
+      "effective_slot_duration_sec": 12.467917,
+      "spoken_slot_duration_sec": 12.467917,
+      "reserved_tail_padding_sec": 0.0,
+      "source_tail_padding_sec": 0.0,
+      "tail_padding_sec": 0.0,
+      "speed_ratio": 0.955887,
+      "trim_start_sec": 0.196458,
+      "trim_end_sec": 12.114375
+    },
+    {
+      "index": 1,
+      "source_duration_sec": 14.64,
+      "content_duration_sec": 13.911834,
+      "target_slot_duration_sec": 15.0,
+      "effective_slot_duration_sec": 14.461834,
+      "spoken_slot_duration_sec": 14.461834,
+      "reserved_tail_padding_sec": 0.0,
+      "source_tail_padding_sec": 0.0,
+      "tail_padding_sec": 0.0,
+      "speed_ratio": 0.961969,
+      "trim_start_sec": 0.184208,
+      "trim_end_sec": 14.096042
+    },
+    {
+      "index": 2,
+      "source_duration_sec": 15.96,
+      "content_duration_sec": 15.174417,
+      "target_slot_duration_sec": 15.0,
+      "effective_slot_duration_sec": 15.724417,
+      "spoken_slot_duration_sec": 15.724417,
+      "reserved_tail_padding_sec": 0.0,
+      "source_tail_padding_sec": 0.0,
+      "tail_padding_sec": 0.0,
+      "speed_ratio": 0.965023,
+      "trim_start_sec": 0.233125,
+      "trim_end_sec": 15.407542
+    },
+    {
+      "index": 3,
+      "source_duration_sec": 13.752,
+      "content_duration_sec": 13.005584,
+      "target_slot_duration_sec": 15.0,
+      "effective_slot_duration_sec": 13.555584,
+      "spoken_slot_duration_sec": 13.555584,
+      "reserved_tail_padding_sec": 0.0,
+      "source_tail_padding_sec": 0.0,
+      "tail_padding_sec": 0.0,
+      "speed_ratio": 0.959426,
+      "trim_start_sec": 0.191833,
+      "trim_end_sec": 13.197417
+    },
+    {
+      "index": 4,
+      "source_duration_sec": 7.2,
+      "content_duration_sec": 6.480333,
+      "target_slot_duration_sec": 15.0,
+      "effective_slot_duration_sec": 7.030333,
+      "spoken_slot_duration_sec": 7.030333,
+      "reserved_tail_padding_sec": 0.0,
+      "source_tail_padding_sec": 0.0,
+      "tail_padding_sec": 0.0,
+      "speed_ratio": 0.921768,
+      "trim_start_sec": 0.195292,
+      "trim_end_sec": 6.675625
+    },
+    {
+      "index": 5,
+      "source_duration_sec": 7.584,
+      "content_duration_sec": 6.845792,
+      "target_slot_duration_sec": 15.0,
+      "effective_slot_duration_sec": 7.395792,
+      "spoken_slot_duration_sec": 7.395792,
+      "reserved_tail_padding_sec": 0.0,
+      "source_tail_padding_sec": 0.0,
+      "tail_padding_sec": 0.0,
+      "speed_ratio": 0.925633,
+      "trim_start_sec": 0.188375,
+      "trim_end_sec": 7.034167
+    }
+  ]
+}

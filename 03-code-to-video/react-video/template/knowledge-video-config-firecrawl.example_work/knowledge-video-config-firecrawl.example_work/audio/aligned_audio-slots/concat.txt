@@ -1,0 +1,6 @@
+file '/Users/andy/.claude/skills/react-video/template/knowledge-video-config-firecrawl.example_work/audio/aligned_audio-slots/slot-00.m4a'
+file '/Users/andy/.claude/skills/react-video/template/knowledge-video-config-firecrawl.example_work/audio/aligned_audio-slots/slot-01.m4a'
+file '/Users/andy/.claude/skills/react-video/template/knowledge-video-config-firecrawl.example_work/audio/aligned_audio-slots/slot-02.m4a'
+file '/Users/andy/.claude/skills/react-video/template/knowledge-video-config-firecrawl.example_work/audio/aligned_audio-slots/slot-03.m4a'
+file '/Users/andy/.claude/skills/react-video/template/knowledge-video-config-firecrawl.example_work/audio/aligned_audio-slots/slot-04.m4a'
+file '/Users/andy/.claude/skills/react-video/template/knowledge-video-config-firecrawl.example_work/audio/aligned_audio-slots/slot-05.m4a'

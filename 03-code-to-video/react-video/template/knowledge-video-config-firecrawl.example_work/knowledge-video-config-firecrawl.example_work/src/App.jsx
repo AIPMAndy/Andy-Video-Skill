@@ -1,0 +1,160 @@
+import React from 'react';
+import KnowledgeVideoGenerator from './knowledge-video-generator.jsx';
+
+const config = {
+  "themeColor": "orange",
+  "project": {
+    "name": "Firecrawl",
+    "stars": "120,000+",
+    "courseNumber": "第 351 课",
+    "category": "AI 基础设施 · 数据引擎"
+  },
+  "steps": [
+    {
+      "type": "cover",
+      "icon": "flame",
+      "badge": "12万星！AI 原生爬虫",
+      "title": "Firecrawl",
+      "subtitle": "搜索·爬取·清洗一条龙",
+      "courseNumber": "第 351 课",
+      "category": "专为 AI Agent 设计的数据引擎",
+      "script": "你有没有发现，传统爬虫爬下来的网页全是 HTML 标签，里面夹杂着广告和脚本，AI 根本用不了？如果你还要自己写代码清洗、应对反爬，那效率太低了。"
+    },
+    {
+      "type": "pain_point",
+      "icon": "code",
+      "badge": "痛点：传统爬虫的 HTML 炼狱",
+      "title": "无效噪音太多，大模型直接崩溃",
+      "script": "给 AI 喂养未经清洗的 HTML，不仅会白白消耗大量昂贵的 Token 额度，还会严重干扰模型的注意力机制。更别提遇到动态加载（JS 渲染）或反爬拦截时，传统爬虫直接罢工。",
+      "visualizer": {
+        "icon": "alert",
+        "badge": "Token 暴增：无效标签让大模型彻底迷失",
+        "items": [
+          {
+            "icon": "code",
+            "color": "red",
+            "title": "HTML 标签噪音",
+            "description": "充满无用的导航、广告、脚本标签"
+          },
+          {
+            "icon": "alert",
+            "color": "amber",
+            "title": "动态加载失败",
+            "description": "React/Vue 页面爬下来是一片空白"
+          },
+          {
+            "icon": "shield",
+            "color": "slate",
+            "title": "遭遇反爬虫机制",
+            "description": "IP 封锁、验证码拦截、403 Forbidden"
+          }
+        ]
+      }
+    },
+    {
+      "type": "feature",
+      "icon": "flame",
+      "badge": "核心优势：AI 原生清洗",
+      "title": "自动剔除噪音，输出纯净 Markdown",
+      "script": "Firecrawl 诞生即是为了 AI。它内置强大的引擎，自动处理 JS 渲染、突破反爬虫拦截，并智能剥离所有导航、广告等无用标签，最终直接吐出极其干净的 Markdown 或结构化 JSON。",
+      "visualizer": {
+        "steps": [
+          {
+            "icon": "globe",
+            "color": "blue",
+            "title": "输入任意网页",
+            "description": "支持动态渲染、反爬突破"
+          },
+          {
+            "icon": "flame",
+            "color": "orange",
+            "title": "AI 原生清洗",
+            "description": "智能剥离无用标签和噪音"
+          },
+          {
+            "icon": "file",
+            "color": "emerald",
+            "title": "输出纯净数据",
+            "description": "Markdown 或结构化 JSON"
+          }
+        ]
+      }
+    },
+    {
+      "type": "feature",
+      "icon": "layers",
+      "badge": "进阶演练：全链路闭环",
+      "title": "搜索 + 映射 + 爬取，一套组合拳",
+      "script": "它不仅能爬单一页面，还能直接进行全网搜索，或者输入一个官网域名，自动 Map 映射出所有子页面并进行深度批量爬取。这是构建 RAG（检索增强生成）知识库的绝佳神器。",
+      "visualizer": {
+        "steps": [
+          {
+            "icon": "search",
+            "color": "blue",
+            "title": "/search 智能搜索",
+            "description": "联网搜索全网，直接返回最佳网页链接"
+          },
+          {
+            "icon": "network",
+            "color": "purple",
+            "title": "/map 站点映射",
+            "description": "自动提取子页面链接，跳过重复内容"
+          },
+          {
+            "icon": "layers",
+            "color": "orange",
+            "title": "/scrape 深度爬取",
+            "description": "并行处理分页与长列表，吐出干净 Markdown"
+          }
+        ]
+      }
+    },
+    {
+      "type": "golden_sentence",
+      "subtitle": "T h e   D a t a",
+      "quote": "未来的爬虫，不是为了让人类看懂，而是为了给 AI 喂养最纯净的知识养料。",
+      "explanation": "优质的输入，决定了大模型的上限。",
+      "script": "不要再让劣质的数据污染你的 Agent。拥有高质量的信息源，AI 才能做出最准确的判断。"
+    },
+    {
+      "type": "summary",
+      "icon": "flame",
+      "title": "课程总结",
+      "author": "AI酋长Andy",
+      "footer": "mendableai / firecrawl",
+      "script": "不管是做 AI 搜索、市场监控还是私有知识库构建，Firecrawl 都是不可多得的利器。下课！",
+      "points": [
+        {
+          "icon": "file",
+          "color": "orange",
+          "title": "LLM 友好格式",
+          "description": "摒弃充满噪音的 HTML，自动提取核心正文并输出大模型最易读的 Markdown 或 JSON，大幅节省 Token。"
+        },
+        {
+          "icon": "shield",
+          "color": "red",
+          "title": "全托管底层复杂性",
+          "description": "内建智能等待、JS 动态渲染处理以及强大的反爬虫绕过机制，无需自行维护代理池与浏览器实例。"
+        },
+        {
+          "icon": "search",
+          "color": "blue",
+          "title": "搜索爬取一体化",
+          "description": "集成搜索引擎，Agent 可直接发送语义指令，Firecrawl 会自动完成检索、遍历、深度清洗的全链路闭环。"
+        }
+      ]
+    }
+  ],
+  "sceneDurationsMs": [
+    12467,
+    14461,
+    15724,
+    13555,
+    7030,
+    7395
+  ]
+};
+
+export default function App() {
+  return <KnowledgeVideoGenerator config={config} />;
+}
