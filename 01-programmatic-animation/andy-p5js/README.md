@@ -372,7 +372,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Andy AIPM**
 - GitHub: [@andyai](https://github.com/andyai)
-- Email: a61269592042@gmail.com
 
 ## 🙏 Acknowledgments
 

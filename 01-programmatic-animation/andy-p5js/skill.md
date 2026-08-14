@@ -1,5 +1,5 @@
 ---
-skill: andy-p5js
+name: andy-p5js
 version: 1.0.0
 description: AI-powered p5.js creative coding workflow - from inspiration to animation
 author: Andy

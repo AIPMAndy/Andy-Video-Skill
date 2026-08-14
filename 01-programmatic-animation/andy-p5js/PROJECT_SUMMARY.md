@@ -288,7 +288,6 @@ ffmpeg -i animation.mp4 -c:v libx264 -crf 23 output.mp4
 
 **作者**: Andy AIPM  
 **GitHub**: @andyai (待创建仓库)  
-**Email**: a61269592042@gmail.com  
 
 ---
 
