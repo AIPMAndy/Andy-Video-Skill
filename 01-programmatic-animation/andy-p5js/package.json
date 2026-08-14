@@ -1,0 +1,37 @@
+{
+  "name": "andy-p5js",
+  "version": "1.0.0",
+  "description": "AI-powered p5.js creative coding workflow - from inspiration to animation",
+  "main": "index.js",
+  "scripts": {
+    "start": "python3 -m http.server 8765",
+    "test": "echo \"No tests yet\" && exit 0",
+    "workflow": "./run-workflow.sh"
+  },
+  "keywords": [
+    "p5js",
+    "creative-coding",
+    "animation",
+    "generative-art",
+    "visual-effects",
+    "ai",
+    "gemini",
+    "claude",
+    "webbridge"
+  ],
+  "author": "Andy AIPM <a61269592042@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andyai/andy-p5js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/andyai/andy-p5js/issues"
+  },
+  "homepage": "https://github.com/andyai/andy-p5js#readme",
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

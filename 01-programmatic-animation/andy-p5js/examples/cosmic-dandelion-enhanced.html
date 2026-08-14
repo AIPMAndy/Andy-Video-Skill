@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enhanced Cosmic Dandelion 3D</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+  <style>
+    body { margin: 0; padding: 0; overflow: hidden; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+<script>
+// Enhanced configuration with more visual effects
+const CONFIG = {
+  bg: '#0A1628',
+  birdColor: '#E8F4FF',
+  birdGlow: '#6BB6FF',
+  centerColor: '#FFB6C1',
+  centerGlow: '#FF69B4',
+  stemColor: '#7FB069',
+  birdCount: 500,
+  dandelionRadius: 240,
+  centerRadius: 32,
+  starCount: 600,
+  flapSpeed: 0.12,
+  breathSpeed: 0.025,
+  swaySpeed: 0.012,
+  glowIntensity: 0.8,
+  trailLength: 15,
+  particleCount: 100
+};
+
+let dandelion;
+let starfield;
+let time = 0;
+let particles = [];
+
+// Particle system for atmospheric effects
+class Particle {
+  constructor() {
+    this.reset();
+  }
+
+  reset() {
+    this.pos = createVector(
+      random(-width, width),
+      random(-height, height),
+      random(-500, 500)
+    );
+    this.vel = createVector(
+      random(-0.5, 0.5),
+      random(-0.5, 0.5),
+      random(-0.5, 0.5)
+    );
+    this.size = random(1, 4);
+    this.alpha = random(100, 255);
+    this.life = 1.0;
+  }
+
+  update() {
+    this.pos.add(this.vel);
+    this.life -= 0.002;
+
+    if (this.life <= 0 || this.pos.mag() > 800) {
+      this.reset();
+    }
+  }
+
+  display() {
+    push();
+    translate(this.pos.x, this.pos.y, this.pos.z);
+    noStroke();
+    fill(255, 255, 255, this.alpha * this.life);
+    sphere(this.size);
+    pop();
+  }
+}
+
+class Starfield {
+  constructor(count) {
+    this.stars = [];
+    for (let i = 0; i < count; i++) {
+      this.stars.push({
+        x: random(-width, width),
+        y: random(-height, height),
+        z: random(-1000, 0),
+        size: random(1, 3),
+        twinkle: random(TWO_PI),
+        speed: random(0.01, 0.03)
+      });
+    }
+  }
+
+  display() {
+    push();
+    noStroke();
+    for (let star of this.stars) {
+      let brightness = map(sin(star.twinkle + time * star.speed), -1, 1, 100, 255);
+      fill(255, 255, 255, brightness);
+      translate(star.x, star.y, star.z);
+      sphere(star.size);
+      translate(-star.x, -star.y, -star.z);
+    }
+    pop();
+  }
+}
+
+class Bird {
+  constructor(index, total, radius) {
+    const phi = acos(1 - 2 * (index + 0.5) / total);
+    const theta = PI * (1 + sqrt(5)) * (index + 0.5);
+
+    this.dir = createVector(
+      sin(phi) * cos(theta),
+      sin(phi) * sin(theta),
+      cos(phi)
+    );
+
+    this.pos = this.dir.copy().mult(radius);
+    this.phase = index * 0.1;
+    this.size = random(6, 10);
+    this.launchTime = index * 0.02;
+    this.launched = false;
+    this.velocity = createVector(0, 0, 0);
+    this.trail = [];
+  }
+
+  update(breathScale) {
+    time += 0.01;
+
+    if (time > this.launchTime && !this.launched) {
+      this.launched = true;
+      this.velocity = this.dir.copy().mult(random(2, 4));
+    }
+
+    if (this.launched) {
+      this.pos.add(this.velocity);
+      this.velocity.mult(0.995);
+
+      let noise = createVector(
+        map(noise(this.pos.x * 0.01, time * 0.1), 0, 1, -0.5, 0.5),
+        map(noise(this.pos.y * 0.01, time * 0.1), 0, 1, -0.5, 0.5),
+        map(noise(this.pos.z * 0.01, time * 0.1), 0, 1, -0.5, 0.5)
+      );
+      this.velocity.add(noise);
+
+      // Add to trail
+      this.trail.push(this.pos.copy());
+      if (this.trail.length > CONFIG.trailLength) {
+        this.trail.shift();
+      }
+    } else {
+      this.pos = this.dir.copy().mult(CONFIG.dandelionRadius * breathScale);
+    }
+  }
+
+  display(breathScale) {
+    let flapAngle = sin(time * CONFIG.flapSpeed + this.phase) * QUARTER_PI;
+
+    push();
+    translate(this.pos.x, this.pos.y, this.pos.z);
+
+    // Draw trail
+    if (this.trail.length > 1) {
+      noFill();
+      strokeWeight(1);
+      for (let i = 0; i < this.trail.length - 1; i++) {
+        let alpha = map(i, 0, this.trail.length, 0, 100);
+        stroke(CONFIG.birdGlow + alpha.toString(16).padStart(2, '0'));
+        let p1 = this.trail[i];
+        let p2 = this.trail[i + 1];
+        line(0, 0, 0, p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);
+        translate(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);
+      }
+    }
+    pop();
+
+    // Draw bird with enhanced glow
+    push();
+    translate(this.pos.x, this.pos.y, this.pos.z);
+
+    // Glow layers
+    for (let r = 3; r >= 1; r--) {
+      let alpha = map(r, 3, 1, 30, 120);
+      fill(CONFIG.birdGlow + alpha.toString(16).padStart(2, '0'));
+      noStroke();
+      sphere(this.size * (1 + r * 0.3));
+    }
+
+    // Core
+    fill(CONFIG.birdColor);
+    noStroke();
+    sphere(this.size);
+
+    // Wings
+    this.drawWings(flapAngle);
+    pop();
+  }
+
+  drawWings(angle) {
+    fill(CONFIG.birdColor + 'CC');
+    noStroke();
+
+    push();
+    rotateZ(angle);
+    ellipsoid(this.size * 2, this.size * 0.8, this.size * 0.3);
+    pop();
+
+    push();
+    rotateZ(-angle);
+    ellipsoid(this.size * 2, this.size * 0.8, this.size * 0.3);
+    pop();
+  }
+}
+
+class Dandelion {
+  constructor(birdCount, radius) {
+    this.birds = [];
+    for (let i = 0; i < birdCount; i++) {
+      this.birds.push(new Bird(i, birdCount, radius));
+    }
+  }
+
+  update() {
+    let breathScale = 1 + sin(time * CONFIG.breathSpeed) * 0.05;
+    for (let bird of this.birds) {
+      bird.update(breathScale);
+    }
+  }
+
+  display() {
+    let breathScale = 1 + sin(time * CONFIG.breathSpeed) * 0.05;
+
+    // Draw stem with enhanced glow
+    push();
+    let swayX = sin(time * CONFIG.swaySpeed) * 15;
+    let swayZ = cos(time * CONFIG.swaySpeed * 0.7) * 10;
+
+    // Stem glow
+    for (let r = 3; r >= 1; r--) {
+      let alpha = map(r, 3, 1, 20, 60);
+      stroke(CONFIG.stemColor + alpha.toString(16).padStart(2, '0'));
+      strokeWeight(8 * (1 + r * 0.2));
+      noFill();
+      beginShape();
+      for (let t = 0; t <= 1; t += 0.05) {
+        let y = map(t, 0, 1, 200, 0);
+        let x = swayX * (1 - t) * t * 4;
+        let z = swayZ * (1 - t) * t * 4;
+        curveVertex(x, y, z);
+      }
+      endShape();
+    }
+
+    // Core stem
+    stroke(CONFIG.stemColor);
+    strokeWeight(8);
+    noFill();
+    beginShape();
+    for (let t = 0; t <= 1; t += 0.05) {
+      let y = map(t, 0, 1, 200, 0);
+      let x = swayX * (1 - t) * t * 4;
+      let z = swayZ * (1 - t) * t * 4;
+      curveVertex(x, y, z);
+    }
+    endShape();
+    pop();
+
+    // Draw center with multi-layer glow
+    push();
+    for (let r = 5; r >= 1; r--) {
+      let alpha = map(r, 5, 1, 20, 150);
+      fill(CONFIG.centerGlow + alpha.toString(16).padStart(2, '0'));
+      noStroke();
+      sphere(CONFIG.centerRadius * breathScale * (1 + r * 0.15));
+    }
+    fill(CONFIG.centerColor);
+    noStroke();
+    sphere(CONFIG.centerRadius * breathScale);
+    pop();
+
+    // Draw birds
+    for (let bird of this.birds) {
+      bird.display(breathScale);
+    }
+  }
+}
+
+function setup() {
+  createCanvas(windowWidth, windowHeight, WEBGL);
+  colorMode(RGB, 255);
+
+  dandelion = new Dandelion(CONFIG.birdCount, CONFIG.dandelionRadius);
+  starfield = new Starfield(CONFIG.starCount);
+
+  // Initialize particles
+  for (let i = 0; i < CONFIG.particleCount; i++) {
+    particles.push(new Particle());
+  }
+}
+
+function draw() {
+  background(CONFIG.bg);
+
+  // Lighting
+  ambientLight(60, 60, 80);
+  pointLight(255, 255, 255, 0, -200, 400);
+  pointLight(200, 150, 255, 200, 0, -200);
+
+  orbitControl();
+
+  // Draw starfield
+  starfield.display();
+
+  // Update and draw particles
+  for (let particle of particles) {
+    particle.update();
+    particle.display();
+  }
+
+  // Update and draw dandelion
+  dandelion.update();
+  dandelion.display();
+
+  time += 1;
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+</script>
+</body>
+</html>

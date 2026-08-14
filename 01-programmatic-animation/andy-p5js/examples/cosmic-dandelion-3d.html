@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>宇宙级飞鸟蒲公英 - 3D Particle Animation</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #3168B5;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js"></script>
+</head>
+<body>
+  <script>
+    /**
+     * 参数化配置对象
+     */
+    const CONFIG = {
+      bg: '#3168B5',
+      birdColor: '#D2E9FF',
+      birdGlow: '#A0CFFF88',
+      centerColor: '#F49B9B',
+      stemColor: '#84A56F',
+      birdCount: 350,
+      dandelionRadius: 220,
+      centerRadius: 28,
+      starCount: 400,
+      flapSpeed: 0.15,
+      breathSpeed: 0.03,
+      swaySpeed: 0.015
+    };
+
+    /**
+     * 背景闪烁星空类
+     */
+    class Starfield {
+      constructor(count) {
+        this.stars = [];
+        for (let i = 0; i < count; i++) {
+          this.stars.push({
+            x: random(-1500, 1500),
+            y: random(-1500, 1500),
+            z: random(-1500, 800),
+            size: random(1, 3.5),
+            alpha: random(100, 255),
+            speed: random(0.02, 0.05),
+            offset: random(100)
+          });
+        }
+      }
+
+      display() {
+        push();
+        noStroke();
+        this.stars.forEach(star => {
+          const alpha = map(sin(frameCount * star.speed + star.offset), -1, 1, 50, 255);
+          fill(255, 255, 255, alpha);
+          push();
+          translate(star.x, star.y, star.z);
+          sphere(star.size, 4, 4);
+          pop();
+        });
+        pop();
+      }
+    }
+
+    /**
+     * 单只飞鸟类（构成蒲公英的冠毛）
+     */
+    class Bird {
+      constructor(index, total, radius) {
+        this.index = index;
+        this.total = total;
+        this.baseRadius = radius;
+        this.radiusOffset = random(-10, 15);
+        this.flapOffset = random(0, TWO_PI);
+        this.size = random(8, 14);
+
+        // 斐波那契球面算法计算空间方向
+        const phi = acos(1 - 2 * (index + 0.5) / total);
+        const theta = PI * (1 + sqrt(5)) * (index + 0.5);
+
+        this.dir = createVector(
+          sin(phi) * cos(theta),
+          sin(phi) * sin(theta),
+          cos(phi)
+        );
+
+        // 计算该方向上的旋转角度，以便让飞鸟朝向外部
+        this.rotY = atan2(this.dir.x, this.dir.z);
+        this.rotX = -asin(this.dir.y);
+      }
+
+      display(breathScale) {
+        const currentRadius = (this.baseRadius + this.radiusOffset) * breathScale;
+        const pos = p5.Vector.mult(this.dir, currentRadius);
+
+        // 绘制连接中心的纤细花丝
+        push();
+        stroke(CONFIG.birdColor);
+        strokeWeight(0.6);
+        line(0, 0, 0, pos.x, pos.y, pos.z);
+        pop();
+
+        // 绘制飞鸟
+        push();
+        translate(pos.x, pos.y, pos.z);
+        rotateY(this.rotY);
+        rotateX(this.rotX);
+
+        const wingAngle = sin(frameCount * CONFIG.flapSpeed + this.flapOffset) * 0.6;
+
+        // 柔和发光光晕（双层半透明材质）
+        noStroke();
+        fill(CONFIG.birdGlow);
+        push();
+        scale(1.6);
+        this.drawWings(wingAngle * 0.8);
+        pop();
+
+        // 飞鸟本体
+        fill(CONFIG.birdColor);
+        this.drawWings(wingAngle);
+        pop();
+      }
+
+      drawWings(angle) {
+        // 左翅
+        push();
+        rotateZ(angle);
+        beginShape();
+        vertex(0, 0, 0);
+        vertex(-this.size, -this.size * 0.4, -this.size * 0.2);
+        vertex(-this.size * 1.2, 0, 0);
+        vertex(-this.size * 0.5, this.size * 0.3, this.size * 0.1);
+        endShape(CLOSE);
+        pop();
+
+        // 右翅
+        push();
+        rotateZ(-angle);
+        beginShape();
+        vertex(0, 0, 0);
+        vertex(this.size, -this.size * 0.4, -this.size * 0.2);
+        vertex(this.size * 1.2, 0, 0);
+        vertex(this.size * 0.5, this.size * 0.3, this.size * 0.1);
+        endShape(CLOSE);
+        pop();
+
+        // 小尾羽
+        push();
+        beginShape();
+        vertex(0, 0, 0);
+        vertex(-this.size * 0.2, this.size * 0.5, -this.size * 0.1);
+        vertex(0, this.size * 0.8, -this.size * 0.2);
+        vertex(this.size * 0.2, this.size * 0.5, -this.size * 0.1);
+        endShape(CLOSE);
+        pop();
+      }
+    }
+
+    /**
+     * 蒲公英整体管理类
+     */
+    class Dandelion {
+      constructor() {
+        this.birds = [];
+        for (let i = 0; i < CONFIG.birdCount; i++) {
+          this.birds.push(new Bird(i, CONFIG.birdCount, CONFIG.dandelionRadius));
+        }
+      }
+
+      display() {
+        push();
+
+        // 随风摆动与旋转
+        const swayX = sin(frameCount * CONFIG.swaySpeed) * 0.15;
+        const swayZ = cos(frameCount * CONFIG.swaySpeed * 0.8) * 0.15;
+        rotateX(swayX);
+        rotateZ(swayZ);
+        rotateY(frameCount * 0.003);
+
+        // 呼吸律动缩放
+        const breathScale = 1 + sin(frameCount * CONFIG.breathSpeed) * 0.06;
+
+        // 绘制花茎（墨绿色曲线）
+        this.drawStem();
+
+        // 绘制中心粉红色球体
+        push();
+        noStroke();
+        fill(CONFIG.centerColor);
+        scale(breathScale);
+        sphere(CONFIG.centerRadius, 24, 24);
+        pop();
+
+        // 绘制所有飞鸟
+        this.birds.forEach(bird => bird.display(breathScale));
+
+        pop();
+      }
+
+      drawStem() {
+        push();
+        noFill();
+        stroke(CONFIG.stemColor);
+        strokeWeight(6);
+
+        // 使用三维贝塞尔曲线生成自然弯曲的花茎
+        beginShape();
+        for (let t = 0; t <= 1; t += 0.05) {
+          const x = bezierPoint(0, 20, 80, 120, t);
+          const y = bezierPoint(0, 250, 450, 700, t);
+          const z = bezierPoint(0, 10, -30, -50, t);
+          vertex(x, y, z);
+        }
+        endShape();
+        pop();
+      }
+    }
+
+    let dandelion;
+    let starfield;
+
+    function setup() {
+      createCanvas(windowWidth, windowHeight, WEBGL);
+      starfield = new Starfield(CONFIG.starCount);
+      dandelion = new Dandelion();
+    }
+
+    function draw() {
+      background(CONFIG.bg);
+
+      // 开启基础光照环境
+      ambientLight(130);
+      directionalLight(255, 255, 255, 0.5, 1, -0.5);
+      pointLight(200, 230, 255, 0, 0, 300);
+
+      // 开启鼠标交互控制视角
+      orbitControl();
+
+      // 渲染星空与蒲公英
+      starfield.display();
+      dandelion.display();
+    }
+
+    function windowResized() {
+      resizeCanvas(windowWidth, windowHeight);
+    }
+  </script>
+</body>
+</html>

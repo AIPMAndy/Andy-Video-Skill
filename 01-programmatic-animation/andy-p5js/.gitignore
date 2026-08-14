@@ -1,0 +1,51 @@
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+node_modules/
+
+# Optional npm cache directory
+.npm
+
+# Output files
+dist/
+build/
+
+# Temporary files
+tmp/
+temp/
+
+# Screenshots (except assets)
+*.png
+!assets/*.png
+
+# Videos
+*.mp4
+*.mov
+*.avi
+
+# MCP server outputs
+.mcp/

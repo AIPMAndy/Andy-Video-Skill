@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dandelion Visual Test Suite</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #1a1a1a;
+      color: #fff;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .version {
+      background: #2a2a2a;
+      border-radius: 8px;
+      padding: 20px;
+    }
+    .version h2 {
+      margin-top: 0;
+      font-size: 18px;
+      color: #6BB6FF;
+    }
+    iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+      border-radius: 4px;
+      background: #000;
+    }
+    .metrics {
+      margin-top: 15px;
+      padding: 15px;
+      background: #1a1a1a;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 8px 0;
+      padding: 5px 0;
+      border-bottom: 1px solid #333;
+    }
+    .metric-label {
+      color: #888;
+    }
+    .metric-value {
+      font-weight: bold;
+      color: #6BB6FF;
+    }
+    .improvements {
+      background: #2a2a2a;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .improvements h2 {
+      color: #6BB6FF;
+      margin-top: 0;
+    }
+    .improvements ul {
+      line-height: 1.8;
+    }
+    .improvements li {
+      margin: 10px 0;
+    }
+    .highlight {
+      color: #FFB6C1;
+      font-weight: bold;
+    }
+    .controls {
+      text-align: center;
+      margin: 30px 0;
+    }
+    button {
+      background: #6BB6FF;
+      color: #000;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 0 10px;
+      transition: all 0.3s;
+    }
+    button:hover {
+      background: #8CC9FF;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌸 蒲公英动画视觉优化测试套件</h1>
+
+    <div class="improvements">
+      <h2>✨ 关键优化点</h2>
+      <ul>
+        <li><span class="highlight">500只飞鸟</span> (原版350只) - 更密集的粒子分布</li>
+        <li><span class="highlight">600颗星星</span> (原版400颗) - 更丰富的背景层次</li>
+        <li><span class="highlight">100个大气粒子</span> - 新增空间感粒子系统</li>
+        <li><span class="highlight">15帧轨迹拖尾</span> - 飞鸟飞行轨迹可视化</li>
+        <li><span class="highlight">多层辉光效果</span> - 3-5层渐变光晕</li>
+        <li><span class="highlight">更深邃的背景</span> - #0A1628 深空蓝替代 #3168B5</li>
+        <li><span class="highlight">增强照明系统</span> - 双点光源 + 环境光</li>
+        <li><span class="highlight">优化运动曲线</span> - Perlin噪声驱动的自然飘动</li>
+      </ul>
+    </div>
+
+    <div class="comparison">
+      <div class="version">
+        <h2>📦 原始版本</h2>
+        <iframe src="cosmic-dandelion-3d.html"></iframe>
+        <div class="metrics">
+          <div class="metric-row">
+            <span class="metric-label">飞鸟数量</span>
+            <span class="metric-value">350</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">星星数量</span>
+            <span class="metric-value">400</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">特效层数</span>
+            <span class="metric-value">基础</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">粒子系统</span>
+            <span class="metric-value">无</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">轨迹拖尾</span>
+            <span class="metric-value">无</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="version">
+        <h2>✨ 增强版本</h2>
+        <iframe src="cosmic-dandelion-enhanced.html"></iframe>
+        <div class="metrics">
+          <div class="metric-row">
+            <span class="metric-label">飞鸟数量</span>
+            <span class="metric-value">500 (+43%)</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">星星数量</span>
+            <span class="metric-value">600 (+50%)</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">特效层数</span>
+            <span class="metric-value">3-5层渐变</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">粒子系统</span>
+            <span class="metric-value">100个大气粒子</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">轨迹拖尾</span>
+            <span class="metric-value">15帧历史</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button onclick="captureScreenshots()">📸 截图对比</button>
+      <button onclick="recordVideo()">🎥 录制视频</button>
+      <button onclick="exportReport()">📊 导出报告</button>
+    </div>
+  </div>
+
+  <script>
+    function captureScreenshots() {
+      alert('使用 Cap 或 mcp__webbridge__screenshot 工具进行截图');
+    }
+
+    function recordVideo() {
+      alert('使用 Cap 录屏工具或 rrweb-stack 进行录制');
+    }
+
+    function exportReport() {
+      const report = {
+        timestamp: new Date().toISOString(),
+        original: {
+          birds: 350,
+          stars: 400,
+          effects: 'basic',
+          particles: 0,
+          trails: false
+        },
+        enhanced: {
+          birds: 500,
+          stars: 600,
+          effects: 'multi-layer-glow',
+          particles: 100,
+          trails: true
+        },
+        improvements: [
+          '+43% bird density',
+          '+50% star count',
+          '3-5 layer glow effects',
+          '100 atmospheric particles',
+          '15-frame trail system',
+          'Deeper cosmic background',
+          'Dual point lighting',
+          'Perlin noise flight paths'
+        ]
+      };
+
+      const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'dandelion-optimization-report.json';
+      a.click();
+    }
+  </script>
+</body>
+</html>
