@@ -1,0 +1,722 @@
+#!/usr/bin/env node
+/**
+ * Text Rain Generator - Core Script
+ * 生成文字雨动效的完整 p5.js 项目
+ */
+
+import * as fs from 'fs';
+import * as path from 'path';
+
+interface Config {
+  text: string;
+  scene: string;
+  speed: number;
+  tilt: number;
+  color: string;
+  fontSize: number;
+  canvasWidth: number;
+  canvasHeight: number;
+  output: string;
+  noPreview: boolean;
+}
+
+// 默认配置
+const DEFAULT_CONFIG: Partial<Config> = {
+  scene: '江南老宅青瓦屋檐，斑驳墙壁',
+  speed: 2.5,
+  tilt: 10,
+  color: '#d4c5a9',
+  fontSize: 24,
+  canvasWidth: 1080,
+  canvasHeight: 1920,
+  output: './text-rain-output',
+  noPreview: false,
+};
+
+/**
+ * 解析命令行参数
+ */
+function parseArgs(): Config {
+  const args = process.argv.slice(2);
+  const config = { ...DEFAULT_CONFIG } as Config;
+
+  // 第一个非flag参数作为诗句文本
+  const textIndex = args.findIndex(arg => !arg.startsWith('--'));
+  if (textIndex !== -1) {
+    config.text = args[textIndex];
+  }
+
+  // 解析其他参数
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+    if (!arg.startsWith('--')) continue;
+
+    const key = arg.slice(2);
+    const value = args[i + 1];
+
+    switch (key) {
+      case 'scene':
+        config.scene = value;
+        i++;
+        break;
+      case 'speed':
+        config.speed = parseFloat(value);
+        i++;
+        break;
+      case 'tilt':
+        config.tilt = parseFloat(value);
+        i++;
+        break;
+      case 'color':
+        config.color = value;
+        i++;
+        break;
+      case 'font-size':
+        config.fontSize = parseInt(value);
+        i++;
+        break;
+      case 'canvas-width':
+        config.canvasWidth = parseInt(value);
+        i++;
+        break;
+      case 'canvas-height':
+        config.canvasHeight = parseInt(value);
+        i++;
+        break;
+      case 'output':
+        config.output = value;
+        i++;
+        break;
+      case 'no-preview':
+        config.noPreview = true;
+        break;
+    }
+  }
+
+  if (!config.text) {
+    console.error('❌ 错误: 必须提供诗句文本');
+    console.log('\n用法示例:');
+    console.log('  node generate.ts "床前明月光，疑是地上霜"');
+    console.log('  node generate.ts "山重水复疑无路" --scene "苏州园林" --speed 3');
+    process.exit(1);
+  }
+
+  return config;
+}
+
+/**
+ * 生成 ChatGPT 生图任务包
+ */
+function generateImageTask(config: Config): object {
+  const prompt = `Generate a black and white vintage photograph with this scene: ${config.scene}.
+
+Requirements:
+- Style: monochrome, vintage film photography, high contrast, visible film grain
+- Composition: traditional Chinese architectural elements (roof tiles, eaves, weathered walls) occupy the bottom 60% of the image
+- The top 40% should be relatively empty (sky or plain wall) to leave space for text overlay
+- Resolution: ${config.canvasWidth}x${config.canvasHeight} (vertical format)
+- Aesthetic: 1980s documentary photography, natural lighting, authentic texture
+
+The roof tiles should have visible gaps and weathered texture. The overall mood should be nostalgic and poetic.`;
+
+  return {
+    objective: 'Generate background image for text rain animation',
+    deliverable: `One PNG image, ${config.canvasWidth}x${config.canvasHeight}, black and white old photo style`,
+    context: {
+      scene: config.scene,
+      style: 'monochrome, vintage, film grain, high contrast',
+      composition: 'bottom 60% architectural elements, top 40% empty for text',
+    },
+    prompt: prompt,
+    acceptance: [
+      `Image resolution exactly ${config.canvasWidth}x${config.canvasHeight}`,
+      'Monochrome (grayscale or black and white)',
+      'Clear architectural structure in bottom portion',
+      'Sufficient empty space at top for text rain',
+    ],
+  };
+}
+
+/**
+ * 生成 index.html
+ */
+function generateHTML(config: Config): string {
+  const firstLine = config.text.split(/[，。、]/)[0];
+  return `<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文字雨 - ${firstLine}</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+  <script src="sketch.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #1a1a1a;
+      overflow: hidden;
+    }
+    canvas {
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+      border-radius: 2px;
+    }
+    #info {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255, 255, 255, 0.4);
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 12px;
+      text-align: center;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="info">
+    点击画面暂停/继续 | R 键重置
+  </div>
+</body>
+</html>`;
+}
+
+/**
+ * 生成 sketch.js
+ */
+function generateSketch(config: Config): string {
+  return `// Text Rain Animation
+// Generated by text-rain-generator
+
+let particles = [];
+let backgroundImg;
+let poem = [];
+let isPaused = false;
+
+const config = {
+  speed: ${config.speed},
+  tilt: ${config.tilt},
+  color: '${config.color}',
+  fontSize: ${config.fontSize},
+  canvasWidth: ${config.canvasWidth},
+  canvasHeight: ${config.canvasHeight},
+  poemText: \`${config.text}\`,
+};
+
+function preload() {
+  backgroundImg = loadImage('assets/background.png');
+}
+
+function setup() {
+  createCanvas(config.canvasWidth, config.canvasHeight);
+
+  // 中文字体设置（优先级顺序）
+  textFont('STKaiti, STSong, SimSun, serif');
+  textSize(config.fontSize);
+  textAlign(CENTER, CENTER);
+
+  // 初始化粒子系统
+  poem = config.poemText.split('').filter(c => c.trim());
+  const particleCount = Math.max(poem.length * 3, 50);
+
+  for (let i = 0; i < particleCount; i++) {
+    particles.push(new RainDrop(random(poem)));
+  }
+
+  console.log(\`✅ 初始化完成: \${particles.length} 个粒子\`);
+}
+
+function draw() {
+  // 渲染背景
+  image(backgroundImg, 0, 0, width, height);
+
+  if (!isPaused) {
+    // 更新和渲染粒子
+    for (let p of particles) {
+      p.update();
+      p.display();
+
+      // 循环利用粒子
+      if (p.y > height + 50) {
+        p.reset();
+      }
+    }
+  } else {
+    // 暂停时仍然渲染，但不更新位置
+    for (let p of particles) {
+      p.display();
+    }
+  }
+
+  // 显示状态
+  if (isPaused) {
+    fill(255, 255, 255, 100);
+    noStroke();
+    textSize(48);
+    text('⏸', width / 2, height / 2);
+    textSize(config.fontSize);
+  }
+}
+
+// 雨滴粒子类
+class RainDrop {
+  constructor(char) {
+    this.char = char;
+    this.reset();
+  }
+
+  reset() {
+    // 横向分布（中间密集，边缘稀疏）
+    const gaussian = () => {
+      let u = 0, v = 0;
+      while(u === 0) u = Math.random();
+      while(v === 0) v = Math.random();
+      return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+    };
+
+    this.x = constrain(
+      width / 2 + gaussian() * width * 0.25,
+      width * 0.05,
+      width * 0.95
+    );
+
+    this.y = random(-height, -50);
+    this.baseSpeed = random(config.speed * 0.7, config.speed * 1.3);
+    this.speed = this.baseSpeed;
+    this.rotation = random(-config.tilt, config.tilt);
+    this.rotationSpeed = random(-0.2, 0.2);
+    this.wobblePhase = random(TWO_PI);
+    this.wobbleSpeed = random(0.02, 0.05);
+    this.wobbleAmplitude = random(0.3, 0.8);
+    this.alpha = random(180, 255);
+    this.scale = random(0.85, 1.15);
+    this.hasCollided = false;
+  }
+
+  update() {
+    // 基础下落
+    this.y += this.speed;
+
+    // 左右摆动（正弦波）
+    this.wobblePhase += this.wobbleSpeed;
+    this.x += sin(this.wobblePhase) * this.wobbleAmplitude;
+
+    // 旋转
+    this.rotation += this.rotationSpeed;
+
+    // 碰撞检测（进入屋檐区域后）
+    if (this.y > height * 0.35 && !this.hasCollided) {
+      this.detectCollision();
+    }
+
+    // 轻微加速度（模拟重力）
+    if (this.speed < config.speed * 2) {
+      this.speed += 0.05;
+    }
+  }
+
+  detectCollision() {
+    // 采样当前位置的背景像素
+    const px = constrain(floor(this.x), 0, width - 1);
+    const py = constrain(floor(this.y), 0, height - 1);
+
+    const imgColor = backgroundImg.get(px, py);
+    const brightness = (imgColor[0] + imgColor[1] + imgColor[2]) / 3;
+
+    // 碰到深色区域（瓦片、墙壁）
+    if (brightness < 80) {
+      this.hasCollided = true;
+
+      // 溅射效果
+      this.speed *= random(0.3, 0.6);
+      this.x += random(-5, 5);
+      this.rotation += random(-15, 15);
+      this.wobbleAmplitude *= 1.5;
+
+      // 有些粒子会沿着瓦面滑落（横向运动）
+      if (random() > 0.5) {
+        this.x += random(-3, 3);
+        this.rotationSpeed *= 2;
+      }
+    }
+  }
+
+  display() {
+    push();
+    translate(this.x, this.y);
+    rotate(radians(this.rotation));
+    scale(this.scale);
+
+    // 颜色和透明度
+    const c = color(config.color);
+    const r = red(c);
+    const g = green(c);
+    const b = blue(c);
+    fill(r, g, b, this.alpha);
+    noStroke();
+
+    // 绘制文字
+    text(this.char, 0, 0);
+    pop();
+  }
+}
+
+// 交互控制
+function mousePressed() {
+  isPaused = !isPaused;
+}
+
+function keyPressed() {
+  // R 键重置
+  if (key === 'r' || key === 'R') {
+    particles.forEach(p => p.reset());
+    isPaused = false;
+  }
+
+  // 空格键暂停
+  if (key === ' ') {
+    isPaused = !isPaused;
+  }
+}
+
+// 窗口调整
+function windowResized() {
+  // 保持画布尺寸不变（不响应窗口变化）
+  // 如需响应式，可取消注释下面的代码
+  // resizeCanvas(windowWidth, windowHeight);
+}
+`;
+}
+
+/**
+ * 生成 README.md
+ */
+function generateREADME(config: Config): string {
+  const firstLine = config.text.split(/[，。、]/)[0];
+  return `# 文字雨动效 - ${firstLine}
+
+> 生成时间: ${new Date().toLocaleString('zh-CN')}
+
+## 📦 项目信息
+
+**诗句内容**: ${config.text}
+**场景描述**: ${config.scene}
+**画布尺寸**: ${config.canvasWidth} × ${config.canvasHeight}
+
+## 🚀 快速运行
+
+### 方法1: 直接打开（推荐新手）
+双击 \`index.html\` 在浏览器中打开
+
+⚠️ 注意: 某些浏览器可能因同源策略阻止加载本地图片，建议使用方法2
+
+### 方法2: 本地服务器（推荐）
+
+**Python 3**:
+\`\`\`bash
+python3 -m http.server 8000
+# 访问 http://localhost:8000
+\`\`\`
+
+**Node.js**:
+\`\`\`bash
+npx serve . -l 8000
+# 访问 http://localhost:8000
+\`\`\`
+
+**Bun** (最快):
+\`\`\`bash
+bun --hot .
+\`\`\`
+
+或直接运行:
+\`\`\`bash
+chmod +x preview.sh
+./preview.sh
+\`\`\`
+
+## 🎮 交互控制
+
+- **鼠标点击** / **空格键**: 暂停/继续
+- **R 键**: 重置所有粒子
+- **刷新页面**: 重新开始
+
+## 🎨 参数调整
+
+编辑 \`sketch.js\` 中的 \`config\` 对象:
+
+\`\`\`javascript
+const config = {
+  speed: ${config.speed},      // 雨速 (1-5)
+  tilt: ${config.tilt},         // 最大倾斜角度 (度)
+  color: '${config.color}',     // 文字颜色 (十六进制)
+  fontSize: ${config.fontSize}, // 字体大小 (px)
+  // ...
+};
+\`\`\`
+
+### 推荐配置方案
+
+**快速雨**:
+\`\`\`javascript
+speed: 4.5, tilt: 20, color: '#e8d5b7'
+\`\`\`
+
+**慢雨**:
+\`\`\`javascript
+speed: 1.5, tilt: 5, color: '#c9b8a3'
+\`\`\`
+
+**雪花效果**:
+\`\`\`javascript
+speed: 1.0, tilt: 25, color: '#ffffff', wobbleAmplitude: 2
+\`\`\`
+
+## 📹 录屏导出
+
+### macOS
+⌘ + Shift + 5 → 选择录制区域 → 开始录制
+
+### Windows
+Win + G → 打开 Xbox Game Bar → 录制
+
+### Linux
+使用 SimpleScreenRecorder 或 OBS Studio
+
+### 通用方案（最专业）
+**OBS Studio**:
+1. 添加"浏览器"源
+2. URL 填写 \`http://localhost:8000\`
+3. 设置分辨率 ${config.canvasWidth}×${config.canvasHeight}
+4. 开始录制
+
+### 导出高质量视频
+录制完成后使用 FFmpeg 压缩:
+\`\`\`bash
+ffmpeg -i input.mov -c:v libx264 -crf 18 -preset slow output.mp4
+\`\`\`
+
+## 🛠️ 技术栈
+
+- **p5.js** 1.7.0 - 创意编程库
+- **纯前端** - 无需构建工具
+- **响应式** - 支持任意分辨率
+
+## 🔧 故障排查
+
+### 背景图未显示
+- 检查 \`assets/background.png\` 是否存在
+- 确保使用本地服务器而非直接打开 HTML
+- 浏览器控制台查看错误信息
+
+### 中文字符显示为方块
+- 确保系统已安装楷体/宋体字体
+- 编辑 \`sketch.js\` 第 23 行修改 \`textFont\` 参数
+
+### 动画卡顿
+- 减少粒子数量: 修改第 29 行 \`poem.length * 3\` 改为 \`* 2\`
+- 降低画布分辨率
+- 关闭其他占用 GPU 的程序
+
+### 碰撞效果不明显
+- 增加背景对比度
+- 调整第 106 行的 \`brightness < 80\` 阈值（增大该值使检测更敏感）
+
+## 🎓 进阶扩展
+
+### 添加音效
+\`\`\`javascript
+let rainSound;
+function preload() {
+  backgroundImg = loadImage('assets/background.png');
+  rainSound = loadSound('assets/rain.mp3');
+}
+function setup() {
+  // ...
+  rainSound.loop();
+  rainSound.setVolume(0.3);
+}
+\`\`\`
+
+### 多首诗句轮播
+\`\`\`javascript
+const poems = [
+  "床前明月光，疑是地上霜",
+  "春眠不觉晓，处处闻啼鸟",
+  "两个黄鹂鸣翠柳，一行白鹭上青天"
+];
+let currentPoem = 0;
+
+function keyPressed() {
+  if (key === 'n' || key === 'N') {
+    currentPoem = (currentPoem + 1) % poems.length;
+    config.poemText = poems[currentPoem];
+    poem = config.poemText.split('').filter(c => c.trim());
+    particles.forEach(p => p.reset());
+  }
+}
+\`\`\`
+
+### 导出为视频（Node.js）
+参考 \`export-frames.js\` 示例脚本（需安装 \`canvas\` 库）
+
+## 📚 参考资料
+
+- [p5.js 官方文档](https://p5js.org/reference/)
+- [粒子系统教程](https://thecodingtrain.com/particles)
+- 景桐 Vibe Coding 文字雨案例
+
+## 📄 许可证
+
+MIT License - 自由使用和修改
+
+---
+
+生成工具: \`text-rain-generator\`
+项目地址: \`~/.claude/skills/text-rain-generator\`
+`;
+}
+
+/**
+ * 生成 preview.sh 启动脚本
+ */
+function generatePreviewScript(): string {
+  return `#!/bin/bash
+# 文字雨预览启动脚本
+
+echo "🌧️  启动文字雨预览..."
+
+# 检测可用的服务器工具
+if command -v python3 &> /dev/null; then
+    echo "✅ 使用 Python 服务器 (http://localhost:8000)"
+    python3 -m http.server 8000 &
+    SERVER_PID=$!
+    sleep 2
+
+    # 自动打开浏览器
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        open http://localhost:8000
+    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        xdg-open http://localhost:8000
+    fi
+
+elif command -v bun &> /dev/null; then
+    echo "✅ 使用 Bun 服务器"
+    bun --hot . &
+    SERVER_PID=$!
+    sleep 1
+    open http://localhost:3000
+
+elif command -v npx &> /dev/null; then
+    echo "✅ 使用 Node.js serve"
+    npx serve . -l 8000 &
+    SERVER_PID=$!
+    sleep 2
+    open http://localhost:8000
+
+else
+    echo "⚠️  未找到 Python/Node.js/Bun，尝试直接打开..."
+    open index.html
+    exit 0
+fi
+
+echo ""
+echo "✅ 预览已启动！"
+echo "📝 控制:"
+echo "   - 点击/空格: 暂停/继续"
+echo "   - R 键: 重置"
+echo "   - Ctrl+C: 停止服务器"
+echo ""
+
+trap "kill $SERVER_PID 2>/dev/null" EXIT
+wait $SERVER_PID
+`;
+}
+
+/**
+ * 主函数
+ */
+async function main() {
+  console.log('🌧️  文字雨生成器启动...\n');
+
+  const config = parseArgs();
+
+  console.log('📋 配置信息:');
+  console.log(`   文本: ${config.text}`);
+  console.log(`   场景: ${config.scene}`);
+  console.log(`   尺寸: ${config.canvasWidth}×${config.canvasHeight}`);
+  console.log(`   输出: ${config.output}\n`);
+
+  // 创建输出目录
+  const outputDir = path.resolve(config.output);
+  const assetsDir = path.join(outputDir, 'assets');
+
+  if (fs.existsSync(outputDir)) {
+    console.log('⚠️  输出目录已存在，将覆盖内容');
+  }
+
+  fs.mkdirSync(outputDir, { recursive: true });
+  fs.mkdirSync(assetsDir, { recursive: true });
+
+  // 生成文件
+  console.log('📝 生成项目文件...');
+
+  fs.writeFileSync(
+    path.join(outputDir, 'index.html'),
+    generateHTML(config)
+  );
+  console.log('   ✅ index.html');
+
+  fs.writeFileSync(
+    path.join(outputDir, 'sketch.js'),
+    generateSketch(config)
+  );
+  console.log('   ✅ sketch.js');
+
+  fs.writeFileSync(
+    path.join(outputDir, 'README.md'),
+    generateREADME(config)
+  );
+  console.log('   ✅ README.md');
+
+  const previewScript = path.join(outputDir, 'preview.sh');
+  fs.writeFileSync(previewScript, generatePreviewScript());
+  fs.chmodSync(previewScript, '755');
+  console.log('   ✅ preview.sh');
+
+  // 生成 ChatGPT 任务包
+  const taskPacket = generateImageTask(config);
+  fs.writeFileSync(
+    path.join(outputDir, 'image-task.json'),
+    JSON.stringify(taskPacket, null, 2)
+  );
+  console.log('   ✅ image-task.json (ChatGPT 任务包)\n');
+
+  // 输出后续步骤
+  console.log('📋 后续步骤:\n');
+  console.log('1️⃣  调用 /andy-relay 生成背景图:');
+  console.log(`   使用任务包: ${path.join(outputDir, 'image-task.json')}`);
+  console.log(`   下载图片到: ${path.join(assetsDir, 'background.png')}\n`);
+  console.log('2️⃣  启动预览:');
+  console.log(`   cd ${outputDir}`);
+  console.log('   ./preview.sh\n');
+  console.log('3️⃣  录屏导出:');
+  console.log('   查看 README.md 的"录屏导出"章节\n');
+
+  console.log(`✅ 项目已生成到: ${outputDir}`);
+}
+
+// 运行
+if (require.main === module) {
+  main().catch(error => {
+    console.error('❌ 生成失败:', error.message);
+    process.exit(1);
+  });
+}
+
+export { Config, generateImageTask, generateHTML, generateSketch };

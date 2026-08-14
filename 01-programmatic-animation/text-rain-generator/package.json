@@ -1,0 +1,32 @@
+{
+  "name": "text-rain-generator",
+  "version": "1.0.0",
+  "description": "Generate artistic text rain animation with p5.js",
+  "main": "generate.ts",
+  "type": "module",
+  "scripts": {
+    "test": "bun run test.ts",
+    "demo": "bun run cli.ts \"床前明月光，疑是地上霜\" --preset jiangnan --output ./demo-output",
+    "batch": "bun run batch-generate.ts --config batch-config.json",
+    "batch-init": "bun run batch-generate.ts --init",
+    "export": "bun run export-video.ts --project ./demo-output --output ./frames --duration 10",
+    "presets": "bun run cli.ts --list-presets"
+  },
+  "keywords": [
+    "p5js",
+    "animation",
+    "text-rain",
+    "generative-art",
+    "vibe-coding"
+  ],
+  "author": "Andy",
+  "license": "MIT",
+  "dependencies": {
+    "canvas": "^3.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  }
+}
