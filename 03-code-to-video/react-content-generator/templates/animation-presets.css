@@ -1,0 +1,324 @@
+/* ============================================
+   动画预设 - 从样例代码中提炼
+   ============================================ */
+
+/* --- 基础动画 --- */
+
+@keyframes fadeInScale {
+  from { 
+    opacity: 0; 
+    transform: translateY(40px) scale(0.95); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0) scale(1); 
+  }
+}
+
+@keyframes slideInUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(50px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes slideInDown {
+  from { 
+    opacity: 0; 
+    transform: translateY(-50px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes slideInLeft {
+  from { 
+    opacity: 0; 
+    transform: translateX(-50px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0); 
+  }
+}
+
+@keyframes slideInRight {
+  from { 
+    opacity: 0; 
+    transform: translateX(50px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0); 
+  }
+}
+
+@keyframes scaleX {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes scaleY {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+/* --- 特效动画 --- */
+
+@keyframes float-badge {
+  0%, 100% {
+    transform: translateY(0) rotate(3deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(3deg);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes dash {
+  to { stroke-dashoffset: -30; }
+}
+
+@keyframes flowRight {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(0%); }
+}
+
+@keyframes flowLeft {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(0%); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); 
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(99, 102, 241, 0.6); 
+  }
+}
+
+@keyframes rotate-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes bounce-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* --- 应用类 --- */
+
+.animate-fadeInScale { 
+  animation: fadeInScale 0.6s cubic-bezier(0.25, 1, 0.5, 1) both; 
+}
+
+.animate-slideInUp { 
+  animation: slideInUp 0.5s cubic-bezier(0.25, 1, 0.5, 1) both; 
+}
+
+.animate-slideInDown { 
+  animation: slideInDown 0.5s cubic-bezier(0.25, 1, 0.5, 1) both; 
+}
+
+.animate-slideInLeft { 
+  animation: slideInLeft 0.5s cubic-bezier(0.25, 1, 0.5, 1) both; 
+}
+
+.animate-slideInRight { 
+  animation: slideInRight 0.5s cubic-bezier(0.25, 1, 0.5, 1) both; 
+}
+
+.animate-scaleX { 
+  animation: scaleX 0.6s ease-out both; 
+}
+
+.animate-scaleY { 
+  animation: scaleY 0.6s ease-out both; 
+}
+
+.animate-float-badge { 
+  animation: float-badge 3s ease-in-out infinite; 
+}
+
+.animate-flowRight { 
+  animation: flowRight 1s ease-out both; 
+}
+
+.animate-flowLeft { 
+  animation: flowLeft 1s ease-out both; 
+}
+
+.animate-pulse-glow { 
+  animation: pulse-glow 2s ease-in-out infinite; 
+}
+
+.animate-rotate-slow { 
+  animation: rotate-slow 20s linear infinite; 
+}
+
+.animate-bounce-subtle {
+  animation: bounce-subtle 2s ease-in-out infinite;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.5s ease-out both;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out both;
+}
+
+.animate-dash {
+  animation: dash 1.5s linear infinite;
+}
+
+/* --- 延迟工具类 --- */
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-600 { animation-delay: 0.6s; }
+.delay-700 { animation-delay: 0.7s; }
+.delay-800 { animation-delay: 0.8s; }
+.delay-900 { animation-delay: 0.9s; }
+.delay-1000 { animation-delay: 1s; }
+.delay-1200 { animation-delay: 1.2s; }
+.delay-1500 { animation-delay: 1.5s; }
+.delay-2000 { animation-delay: 2s; }
+
+/* --- 缓动函数 --- */
+
+.ease-smooth { 
+  transition-timing-function: cubic-bezier(0.25, 1, 0.5, 1); 
+}
+
+.ease-bounce { 
+  transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55); 
+}
+
+.ease-elastic { 
+  transition-timing-function: cubic-bezier(0.68, -0.6, 0.32, 1.6); 
+}
+
+/* --- 背景渐变预设 --- */
+
+.bg-gradient-indigo-purple {
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+}
+
+.bg-gradient-blue-cyan {
+  background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+}
+
+.bg-gradient-emerald-teal {
+  background: linear-gradient(135deg, #10b981 0%, #14b8a6 100%);
+}
+
+.bg-gradient-amber-orange {
+  background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+}
+
+.bg-gradient-rose-pink {
+  background: linear-gradient(135deg, #f43f5e 0%, #ec4899 100%);
+}
+
+/* --- 毛玻璃效果预设 --- */
+
+.glass-light {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.glass-medium {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+}
+
+.glass-heavy {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+}
+
+.glass-dark {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* --- 阴影预设 --- */
+
+.shadow-glass {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+}
+
+.shadow-glass-hover {
+  box-shadow: 0 20px 50px rgba(79, 70, 229, 0.08);
+}
+
+.shadow-glass-active {
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.shadow-glow-indigo {
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+}
+
+.shadow-glow-purple {
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+}
+
+.shadow-glow-emerald {
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+/* --- 响应式工具 --- */
+
+@media (max-width: 768px) {
+  .animate-fadeInScale,
+  .animate-slideInUp,
+  .animate-slideInDown,
+  .animate-slideInLeft,
+  .animate-slideInRight {
+    animation-duration: 0.4s;
+  }
+}
+
+/* --- 性能优化 --- */
+
+.will-animate {
+  will-change: transform, opacity;
+}
+
+.gpu-accelerate {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
