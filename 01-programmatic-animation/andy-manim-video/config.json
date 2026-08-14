@@ -1,0 +1,140 @@
+{
+  "name": "andy-manim-video",
+  "version": "1.0.0",
+  "description": "3Blue1Brown style programmatic animation video production system",
+
+  "defaults": {
+    "style": "3blue1brown",
+    "quality": "high",
+    "duration": 2,
+    "fps": 60,
+    "resolution": "1080p"
+  },
+
+  "colorSchemes": {
+    "3blue1brown": {
+      "primary": "#00FFFF",
+      "secondary": "#FF00FF",
+      "accent": "#FFFF00",
+      "bg": "#171717",
+      "text": "#FFFFFF",
+      "gray": "#808080"
+    },
+    "cyberpunk": {
+      "primary": "#FF00FF",
+      "secondary": "#00FFFF",
+      "accent": "#FFFF00",
+      "bg": "#0A0E27",
+      "text": "#FFFFFF",
+      "gray": "#808080"
+    },
+    "nature": {
+      "primary": "#7CFC00",
+      "secondary": "#FF69B4",
+      "accent": "#FFD700",
+      "bg": "#1B2631",
+      "text": "#FFFFFF",
+      "gray": "#808080"
+    },
+    "minimal": {
+      "primary": "#000000",
+      "secondary": "#404040",
+      "accent": "#808080",
+      "bg": "#FFFFFF",
+      "text": "#000000",
+      "gray": "#808080"
+    }
+  },
+
+  "qualityPresets": {
+    "low": {
+      "resolution": "480p",
+      "fps": 15,
+      "flag": "-ql",
+      "description": "Fast preview, quick iteration"
+    },
+    "medium": {
+      "resolution": "720p",
+      "fps": 30,
+      "flag": "-qm",
+      "description": "Testing and review"
+    },
+    "high": {
+      "resolution": "1080p",
+      "fps": 60,
+      "flag": "-qh",
+      "description": "Publishing quality (recommended)"
+    },
+    "production": {
+      "resolution": "2160p",
+      "fps": 60,
+      "flag": "-qk",
+      "description": "4K professional grade"
+    }
+  },
+
+  "sceneTemplates": {
+    "intro": {
+      "duration": 10,
+      "description": "Opening hook with question-style title",
+      "voiceoverPattern": "But what is {topic}?"
+    },
+    "problem": {
+      "duration": 20,
+      "description": "Problem setup and motivation",
+      "voiceoverPattern": "The problem we're trying to solve is..."
+    },
+    "concept": {
+      "duration": 40,
+      "description": "Core concept explanation with visuals",
+      "voiceoverPattern": "The key ingredients are..."
+    },
+    "conclusion": {
+      "duration": 30,
+      "description": "Summary and key takeaways",
+      "voiceoverPattern": "So why does this matter?"
+    }
+  },
+
+  "animationEffects": {
+    "textReveal": ["Write", "FadeIn", "AddTextLetterByLetter"],
+    "transitions": ["FadeIn", "FadeOut", "Transform", "ReplacementTransform"],
+    "emphasis": ["Indicate", "Flash", "CircleIndicate", "ShowPassingFlash"],
+    "movement": ["MoveToTarget", "Shift", "ApplyMethod"]
+  },
+
+  "exportSettings": {
+    "videoFormat": "mp4",
+    "audioCodec": "aac",
+    "audioSampleRate": 48000,
+    "audioBitrate": "192k"
+  },
+
+  "youtube": {
+    "titleFormulas": [
+      "But what is {topic}?",
+      "{topic} explained visually",
+      "The essence of {topic}",
+      "Understanding {topic} intuitively"
+    ],
+    "thumbnailSpecs": {
+      "width": 1280,
+      "height": 720,
+      "format": "png",
+      "dpi": 72
+    },
+    "tags": [
+      "math animation",
+      "visual explanation",
+      "manim",
+      "3blue1brown style",
+      "educational video"
+    ]
+  },
+
+  "dependencies": {
+    "manim": ">=0.18.0",
+    "python": ">=3.8",
+    "ffmpeg": "required"
+  }
+}

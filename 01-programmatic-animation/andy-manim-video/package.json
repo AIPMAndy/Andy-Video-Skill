@@ -1,0 +1,41 @@
+{
+  "name": "andy-manim-video",
+  "version": "1.0.0",
+  "description": "3Blue1Brown 风格的 Manim 程序化动画视频制作系统",
+  "author": "Andy",
+  "license": "MIT",
+  "main": "index.mjs",
+  "type": "module",
+  "keywords": [
+    "manim",
+    "animation",
+    "video",
+    "3blue1brown",
+    "education",
+    "youtube",
+    "ai",
+    "visualization"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AIPMAndy/andy-manim-video"
+  },
+  "bugs": {
+    "url": "https://github.com/AIPMAndy/andy-manim-video/issues"
+  },
+  "homepage": "https://github.com/AIPMAndy/andy-manim-video#readme",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^11.1.0",
+    "ora": "^8.0.1",
+    "inquirer": "^9.2.12"
+  },
+  "scripts": {
+    "start": "node index.mjs",
+    "test": "node tests/test_script_generation.py",
+    "example": "node index.mjs --topic 'Attention Mechanism' --duration 2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
