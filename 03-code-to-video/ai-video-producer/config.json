@@ -1,0 +1,19 @@
+{
+  "github": {
+    "trendingUrl": "https://github.com/trending",
+    "languages": ["python", "typescript"],
+    "minStars": 10000,
+    "timeRange": "monthly"
+  },
+  "output": {
+    "topicDocFolder": "AI专用知识库/素材/AI知识视频素材",
+    "videoDir": "/Users/andy/Desktop/AI视频/",
+    "reactProjectDir": "/Users/andy/Desktop/公众号发布/"
+  },
+  "video": {
+    "width": 1536,
+    "height": 2048,
+    "fps": 30
+  },
+  "autoConfirm": false
+}
