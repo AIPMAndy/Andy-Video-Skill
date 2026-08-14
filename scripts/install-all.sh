@@ -14,9 +14,12 @@ fi
 
 mkdir -p "$TARGET"
 
-# Find every directory containing SKILL.md or skill.md
-mapfile -t SKILL_DIRS < <(find "$REPO_ROOT" -mindepth 2 -maxdepth 3 \
-  \( -name "SKILL.md" -o -name "skill.md" \) -printf '%h\n' | sort -u)
+# Find every directory containing SKILL.md or skill.md (POSIX-portable)
+SKILL_DIRS=()
+while IFS= read -r dir; do
+  SKILL_DIRS+=("$dir")
+done < <(find "$REPO_ROOT" -mindepth 2 -maxdepth 3 \
+  \( -name "SKILL.md" -o -name "skill.md" \) -print | while read -r f; do dirname "$f"; done | sort -u)
 
 INSTALLED=0
 SKIPPED=0

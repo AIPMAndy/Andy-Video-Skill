@@ -37,7 +37,10 @@ done
 # Check each skill has SKILL.md or skill.md
 echo ""
 echo "--- Skill SKILL.md ---"
-mapfile -t SKILL_DIRS < <(find . -mindepth 3 -maxdepth 3 -type d \
+SKILL_DIRS=()
+while IFS= read -r dir; do
+  SKILL_DIRS+=("$dir")
+done < <(find . -mindepth 2 -maxdepth 2 -type d \
   ! -path './.git*' \
   ! -path './showcase*' \
   ! -path './docs*' \
