@@ -1,0 +1,135 @@
+/**
+ * Liquid animations and transitions
+ * Based on high-end-visual-design principles
+ */
+
+/* Fluid easing functions */
+:root {
+  --ease-fluid: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --duration-quick: 300ms;
+  --duration-normal: 500ms;
+  --duration-slow: 800ms;
+}
+
+/* Base liquid transition */
+.liquid-transition {
+  transition: all var(--duration-normal) var(--ease-fluid);
+}
+
+.liquid-transition--quick {
+  transition-duration: var(--duration-quick);
+}
+
+.liquid-transition--slow {
+  transition-duration: var(--duration-slow);
+}
+
+/* Magnetic hover effect */
+.liquid-magnetic {
+  position: relative;
+  transition: transform var(--duration-normal) var(--ease-fluid);
+}
+
+.liquid-magnetic:hover {
+  transform: scale(1.02);
+}
+
+.liquid-magnetic:active {
+  transform: scale(0.98);
+}
+
+/* Fluid button */
+.liquid-button {
+  position: relative;
+  overflow: hidden;
+  transition: all var(--duration-normal) var(--ease-fluid);
+}
+
+.liquid-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 60%);
+  opacity: 0;
+  transition: opacity var(--duration-quick) var(--ease-fluid);
+  pointer-events: none;
+}
+
+.liquid-button:hover::before {
+  opacity: 1;
+}
+
+/* Ripple effect */
+@keyframes liquid-ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.liquid-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  animation: liquid-ripple 600ms var(--ease-fluid);
+  pointer-events: none;
+}
+
+/* Morphing transition */
+.liquid-morph {
+  transition:
+    border-radius var(--duration-slow) var(--ease-elastic),
+    transform var(--duration-slow) var(--ease-elastic),
+    background var(--duration-normal) var(--ease-fluid);
+}
+
+/* Floating animation */
+@keyframes liquid-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.liquid-float {
+  animation: liquid-float 3s var(--ease-fluid) infinite;
+}
+
+/* Shimmer effect */
+@keyframes liquid-shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.liquid-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: liquid-shimmer 2s linear infinite;
+}
+
+/* GPU acceleration helpers */
+.liquid-gpu {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
