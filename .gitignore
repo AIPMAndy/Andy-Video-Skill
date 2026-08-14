@@ -19,7 +19,11 @@ venv/
 dist/
 build/
 out/
+.next/
 *.tsbuildinfo
+
+# Render artifacts (skipped skill build outputs)
+.example_work/
 
 # Editor
 .vscode/
