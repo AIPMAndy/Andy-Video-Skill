@@ -2,19 +2,19 @@
 
 # Andy-Video-Skill
 
-**Stop reinventing video pipelines. Drop in 12 curated Skills, ship your next video today.**
+**One video request. 13 local Skills, unified routing across 22 verified video-related source entries.**
 
-A curated catalog of 12 battle-tested Skills for Claude Code that turn your AI agent into a video production studio — 3Blue1Brown animations, viral shorts, React-to-MP4, paper-collage explainers, and more.
+A curated catalog of 13 Skills for Claude Code that turn your AI agent into a video production studio — 3Blue1Brown animations, viral shorts, React-to-MP4, paper-collage explainers, and more.
 
 [Live Showcase](https://AIPMAndy.github.io/Andy-Video-Skill/) · [Quick Start](#-quick-start-3-minutes) · [中文文档](./README.zh-CN.md)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/AIPMAndy/Andy-Video-SKill.svg)](https://github.com/AIPMAndy/Andy-Video-SKill/stargazers)
 [![Last commit](https://img.shields.io/github/last-commit/AIPMAndy/Andy-Video-SKill.svg)](https://github.com/AIPMAndy/Andy-Video-SKill/commits/main)
-[![Skills](https://img.shields.io/badge/skills-12-blueviolet)](#-5-categories-12-skills-1-install)
-[![Categories](https://img.shields.io/badge/categories-5-blue)](#-5-categories-12-skills-1-install)
+[![Skills](https://img.shields.io/badge/skills-13-blueviolet)](#-5-categories-12-skills-1-install)
+[![Categories](https://img.shields.io/badge/categories-6-blue)](#-5-categories-12-skills-1-install)
 
-![Hero — 12 Skills across 5 categories, one install command](./showcase/assets/images/hero.png)
+![Hero — 13 Skills across 6 categories, one install command](./showcase/assets/images/hero.png)
 
 </div>
 
@@ -30,14 +30,15 @@ If you've tried to make videos with Claude Code, you already know the pain:
 - **Paper-collage explainers** require hand-tuned Canvas math
 - Each one is a week of trial and error before your first render
 
-**Andy-Video-Skill puts 12 of these workflows a single `cp -r` away.** Every Skill here was stress-tested in a real production video release — none of them are toy demos.
+**Andy-Video-Skill puts 13 video workflows a single `cp -r` away.** Every Skill here was stress-tested in a real production video release — none of them are toy demos.
 
 ---
 
-## 5 categories · 12 Skills · 1 install
+## 6 categories · 13 Skills · 1 install
 
 | # | Category | Skills | What it unlocks |
 |---|----------|:------:|-----------------|
+| 00 | **Video Orchestration** | 1 | One natural-language request → dispatch to appropriate video engine; reviewed full BB-Video, Remotion and MoneyPrinterTurbo Skill packages on demand |
 | 01 | **Programmatic Animation** | 4 | 3Blue1Brown math · p5.js generative · Three.js liquid metal · Matrix text rain |
 | 02 | **Recording-to-Video** | 1 | Long recordings → 100+ platform-native viral shorts |
 | 03 | **Code-to-Video** | 3 | React components → MP4 · Apple-style knowledge pages · AI producer |
@@ -51,6 +52,14 @@ If you've tried to make videos with Claude Code, you already know the pain:
 ---
 
 ## 🚀 Quick Start (3 minutes)
+
+**Featured: [andy-video-director](./00-orchestration/andy-video-director/)** — a unified Agent Skill router with executable preflight, reviewed/pinned upstream install and real engine handoff. It can stage BB-Video's full renderer and all **30 styles**, MoneyPrinterTurbo and 12 official Remotion Agent Skills. The 22-item source registry is **not** 22 preinstalled engines or proof that every backend was rendered successfully.
+
+```bash
+python3 00-orchestration/andy-video-director/director.py plan --request "Make a launch video for my AI product"
+# Optional explicit upstream install: ./scripts/install-all.sh --with-upstreams
+```
+
 
 ```bash
 # 1. Clone the catalog
@@ -120,7 +129,7 @@ Restart Claude Code to load it.
 ### C. Bulk install (recommended)
 
 ```bash
-./scripts/install-all.sh                                    # install all 12
+./scripts/install-all.sh                                    # install all 13
 ./scripts/install-all.sh --exclude andy-liquid,react-video  # skip some
 ```
 
@@ -153,7 +162,7 @@ Or `andy-paper-collage-explainer` for a distinctive hand-crafted style:
 
 ## Architecture — what this catalog actually is
 
-This is **not** an application. It is a **content library** — 12 directories of method instructions that an AI agent reads. The unit of install is the Skill, not the app.
+This is **not** an application. It is a **content library** — 13 local directories of Skill instructions that an AI agent reads. The unit of install is the Skill, not the app.
 
 ```
 Andy-Video-SKill/
@@ -258,7 +267,7 @@ MIT — see [LICENSE](./LICENSE).
 
 ## Credits
 
-All Skills authored by Andy. Each Skill retains its own LICENSE inside its directory. The `andy-p5js` and `andy-paper-collage-explainer` visual assets shown above were produced by their respective Skills in real production.
+Existing Andy Skills are maintained by Andy. Third-party sources retain original authors and licenses (BB-Video © 2026 Dylan Deng, MIT). Each Skill retains its own LICENSE inside its directory. The `andy-p5js` and `andy-paper-collage-explainer` visual assets shown above were produced by their respective Skills in real production.
 
 ---
 

@@ -1,8 +1,17 @@
 # Skill Catalog
 
-12 Skills grouped into 5 categories. Click into any skill for its `SKILL.md`.
+13 local Skills across 6 categories. The [22-source video engine registry](./00-orchestration/andy-video-director/registry.json) is a router index, not 22 installed Skills.
 
 ## By Category
+
+### 00 · Unified Video Orchestration (1 skill)
+| # | Skill | Tech Stack | Status | Source |
+|---|-------|-----------|--------|--------|
+| 13 | [andy-video-director](./00-orchestration/andy-video-director/) | Python stdlib / Agent Skill / multi-engine router | v0.2.0 | [SKILL.md](./00-orchestration/andy-video-director/SKILL.md) |
+
+Upstream Agent Skill packs installable on demand: full BB-Video with 30 styles; MoneyPrinterTurbo; and Remotion Agent Skills. Heavy model engines remain external targets requiring setup.
+
+
 
 ### 01 · Programmatic Animation (4 skills)
 | # | Skill | Tech Stack | Status | Source |
@@ -37,6 +46,9 @@
 | 12 | [andy-paper-collage-explainer](./05-stylized-effects/andy-paper-collage-explainer/) | Canvas / JS | v1.0.0 | [SKILL.md](./05-stylized-effects/andy-paper-collage-explainer/SKILL.md) |
 
 ## By Tech Stack
+
+- **Python stdlib / Agent orchestration**: andy-video-director (routing, environment checks, pinned skill staging, actual Agent handoff)
+
 
 - **Python / Manim**: andy-manim-video
 - **p5.js**: andy-p5js

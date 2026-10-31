@@ -1,0 +1,414 @@
+{
+  "version": "0.2.0",
+  "updated": "2026-10-31",
+  "policy": "Verified repository existence and documented roles. Listed engines are NOT automatically installed, executed, or performance-benchmarked. License and model-weight conditions may differ.",
+  "engines": [
+    {
+      "id": "bb-video",
+      "name": "BB-Video",
+      "repo": "BubbleBrainBB/BB-Video",
+      "kind": "agent-skill",
+      "category": "code-video",
+      "use": [
+        "explainer",
+        "promo",
+        "stylized",
+        "educational",
+        "launch"
+      ],
+      "hardware": "cpu",
+      "cost": "free-code; edge-tts requires network",
+      "license": "MIT (Dylan Deng)",
+      "skill_path": "skills/bb-video",
+      "ref": "a21025a19d382b066ff354d877919be9d6863f97",
+      "verified": "source/code/skill",
+      "priority": 1
+    },
+    {
+      "id": "moneyprinterturbo-video",
+      "name": "MoneyPrinterTurbo",
+      "repo": "harry0703/MoneyPrinterTurbo",
+      "kind": "agent-skill",
+      "category": "short-video",
+      "use": [
+        "short",
+        "faceless",
+        "automatic",
+        "stock",
+        "social",
+        "batch"
+      ],
+      "hardware": "cpu/cloud",
+      "cost": "variable API/footage costs",
+      "license": "check upstream and third-party media/model terms",
+      "skill_path": "docs/skill",
+      "ref": "1cebc658346a806b79199d3b5d39cb15b4eca4c2",
+      "verified": "source/skill",
+      "priority": 1
+    },
+    {
+      "id": "remotion-skills",
+      "name": "Remotion Agent Skills",
+      "repo": "remotion-dev/skills",
+      "kind": "agent-skill-pack",
+      "category": "react-video",
+      "use": [
+        "react",
+        "motion",
+        "product",
+        "captions",
+        "maps",
+        "social",
+        "video-app"
+      ],
+      "hardware": "cpu",
+      "cost": "check Remotion commercial licensing",
+      "license": "check upstream / Remotion licensing",
+      "skill_path": "skills",
+      "ref": "30d4553ecd46fbc5212fd0ff006ae43af522158b",
+      "verified": "source/skills",
+      "priority": 1,
+      "subskills": [
+        "remotion-best-practices",
+        "remotion-create",
+        "remotion-markup",
+        "remotion-render",
+        "remotion-studio",
+        "remotion-captions",
+        "remotion-maps",
+        "remotion-saas",
+        "remotion-interactivity",
+        "remotion-docs",
+        "remotion-upgrade",
+        "remotion-multimedia"
+      ]
+    },
+    {
+      "id": "andy-screencast-to-viral",
+      "name": "Andy Screencast to Viral",
+      "repo": "AIPMAndy/Andy-Video-Skill",
+      "kind": "builtin-skill",
+      "category": "recording",
+      "use": [
+        "recording",
+        "screencast",
+        "clip",
+        "repurpose",
+        "batch"
+      ],
+      "hardware": "cpu",
+      "cost": "local",
+      "license": "repository license; review tool dependencies",
+      "skill_path": "02-recording-to-video/andy-screencast-to-viral",
+      "verified": "local-skill"
+    },
+    {
+      "id": "react-video",
+      "name": "Andy React Video",
+      "repo": "AIPMAndy/Andy-Video-Skill",
+      "kind": "builtin-skill",
+      "category": "react-video",
+      "use": [
+        "react",
+        "code",
+        "product",
+        "educational"
+      ],
+      "hardware": "cpu",
+      "cost": "local",
+      "license": "repository license",
+      "skill_path": "03-code-to-video/react-video",
+      "verified": "local-skill"
+    },
+    {
+      "id": "andy-manim-video",
+      "name": "Andy Manim Video",
+      "repo": "AIPMAndy/Andy-Video-Skill",
+      "kind": "builtin-skill",
+      "category": "math",
+      "use": [
+        "math",
+        "formula",
+        "diagram",
+        "science",
+        "educational"
+      ],
+      "hardware": "cpu",
+      "cost": "local",
+      "license": "repository license",
+      "skill_path": "01-programmatic-animation/andy-manim-video",
+      "verified": "local-skill"
+    },
+    {
+      "id": "andy-paper-collage-explainer",
+      "name": "Andy Paper Collage",
+      "repo": "AIPMAndy/Andy-Video-Skill",
+      "kind": "builtin-skill",
+      "category": "stylized",
+      "use": [
+        "stylized",
+        "collage",
+        "news",
+        "educational"
+      ],
+      "hardware": "cpu",
+      "cost": "local",
+      "license": "repository license",
+      "skill_path": "05-stylized-effects/andy-paper-collage-explainer",
+      "verified": "local-skill"
+    },
+    {
+      "id": "ai-video-producer",
+      "name": "Andy AI Video Producer",
+      "repo": "AIPMAndy/Andy-Video-Skill",
+      "kind": "builtin-skill",
+      "category": "automation",
+      "use": [
+        "automatic",
+        "ppt",
+        "educational",
+        "script"
+      ],
+      "hardware": "cpu/cloud",
+      "cost": "depends on providers",
+      "license": "repository license",
+      "skill_path": "03-code-to-video/ai-video-producer",
+      "verified": "local-skill"
+    },
+    {
+      "id": "wan2.2",
+      "name": "Wan2.2",
+      "repo": "Wan-Video/Wan2.2",
+      "kind": "model-engine",
+      "category": "generative",
+      "use": [
+        "text-to-video",
+        "image-to-video",
+        "cinematic",
+        "ai-footage"
+      ],
+      "hardware": "gpu",
+      "cost": "GPU and model weights",
+      "license": "check code AND model-weight terms",
+      "verified": "repository"
+    },
+    {
+      "id": "ltx-2",
+      "name": "LTX-2",
+      "repo": "Lightricks/LTX-2",
+      "kind": "model-engine",
+      "category": "generative",
+      "use": [
+        "text-to-video",
+        "image-to-video",
+        "audio-video",
+        "cinematic"
+      ],
+      "hardware": "gpu",
+      "cost": "GPU and model weights",
+      "license": "check code AND model-weight terms",
+      "verified": "repository"
+    },
+    {
+      "id": "comfyui",
+      "name": "ComfyUI",
+      "repo": "Comfy-Org/ComfyUI",
+      "kind": "workflow-engine",
+      "category": "generative",
+      "use": [
+        "node-graph",
+        "text-to-video",
+        "image-to-video",
+        "ai-footage",
+        "pipeline"
+      ],
+      "hardware": "gpu",
+      "cost": "GPU/model/provider dependent",
+      "license": "check workflows/custom nodes/weights separately",
+      "verified": "repository"
+    },
+    {
+      "id": "cogvideox",
+      "name": "CogVideo",
+      "repo": "THUDM/CogVideo",
+      "kind": "model-engine",
+      "category": "generative",
+      "use": [
+        "text-to-video",
+        "image-to-video",
+        "cinematic"
+      ],
+      "hardware": "gpu",
+      "cost": "GPU/model dependent",
+      "license": "check model-specific terms",
+      "verified": "repository"
+    },
+    {
+      "id": "hunyuanvideo",
+      "name": "HunyuanVideo",
+      "repo": "Tencent-Hunyuan/HunyuanVideo",
+      "kind": "model-engine",
+      "category": "generative",
+      "use": [
+        "text-to-video",
+        "cinematic",
+        "ai-footage"
+      ],
+      "hardware": "gpu",
+      "cost": "GPU/model dependent",
+      "license": "check model-specific terms",
+      "verified": "repository"
+    },
+    {
+      "id": "whisperx",
+      "name": "WhisperX",
+      "repo": "m-bain/whisperX",
+      "kind": "processing-engine",
+      "category": "captions",
+      "use": [
+        "transcription",
+        "word-timestamps",
+        "subtitles",
+        "speakers"
+      ],
+      "hardware": "cpu/gpu",
+      "cost": "local model compute",
+      "license": "BSD-2-Clause; diarization models separate",
+      "verified": "repository"
+    },
+    {
+      "id": "faster-whisper",
+      "name": "faster-whisper",
+      "repo": "SYSTRAN/faster-whisper",
+      "kind": "processing-engine",
+      "category": "captions",
+      "use": [
+        "transcription",
+        "subtitles",
+        "speech"
+      ],
+      "hardware": "cpu/gpu",
+      "cost": "local compute",
+      "license": "check upstream and model terms",
+      "verified": "repository"
+    },
+    {
+      "id": "edge-tts",
+      "name": "edge-tts",
+      "repo": "rany2/edge-tts",
+      "kind": "processing-engine",
+      "category": "voice",
+      "use": [
+        "voice",
+        "narration",
+        "tts",
+        "zh"
+      ],
+      "hardware": "network",
+      "cost": "service network required",
+      "license": "check upstream/service terms; sends text externally",
+      "verified": "repository"
+    },
+    {
+      "id": "auto-editor",
+      "name": "auto-editor",
+      "repo": "WyattBlue/auto-editor",
+      "kind": "processing-engine",
+      "category": "edit",
+      "use": [
+        "silence",
+        "cut",
+        "pace",
+        "editing",
+        "recording"
+      ],
+      "hardware": "cpu",
+      "cost": "local",
+      "license": "check upstream",
+      "verified": "repository"
+    },
+    {
+      "id": "lossless-cut",
+      "name": "LosslessCut",
+      "repo": "mifi/lossless-cut",
+      "kind": "gui-tool",
+      "category": "edit",
+      "use": [
+        "trim",
+        "split",
+        "merge",
+        "lossless"
+      ],
+      "hardware": "cpu",
+      "cost": "local",
+      "license": "check upstream",
+      "verified": "repository"
+    },
+    {
+      "id": "moviepy",
+      "name": "MoviePy",
+      "repo": "Zulko/moviepy",
+      "kind": "processing-engine",
+      "category": "edit",
+      "use": [
+        "python",
+        "compose",
+        "editing",
+        "automated"
+      ],
+      "hardware": "cpu",
+      "cost": "local",
+      "license": "check upstream",
+      "verified": "repository"
+    },
+    {
+      "id": "videolingo",
+      "name": "VideoLingo",
+      "repo": "Huanshere/VideoLingo",
+      "kind": "processing-engine",
+      "category": "localize",
+      "use": [
+        "translate",
+        "dubbing",
+        "subtitles",
+        "localize"
+      ],
+      "hardware": "cpu/cloud",
+      "cost": "translation and TTS models may cost",
+      "license": "check upstream and providers",
+      "verified": "repository"
+    },
+    {
+      "id": "liveportrait",
+      "name": "LivePortrait",
+      "repo": "KwaiVGI/LivePortrait",
+      "kind": "model-engine",
+      "category": "avatar",
+      "use": [
+        "portrait",
+        "animate-face",
+        "talking-head"
+      ],
+      "hardware": "gpu",
+      "cost": "GPU/model dependent",
+      "license": "review rights to faces/weights",
+      "verified": "repository"
+    },
+    {
+      "id": "sadtalker",
+      "name": "SadTalker",
+      "repo": "OpenTalker/SadTalker",
+      "kind": "model-engine",
+      "category": "avatar",
+      "use": [
+        "talking-head",
+        "portrait",
+        "speech-to-face"
+      ],
+      "hardware": "gpu",
+      "cost": "GPU/model dependent",
+      "license": "review rights to faces/weights",
+      "verified": "repository"
+    }
+  ]
+}

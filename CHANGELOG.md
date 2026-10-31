@@ -5,6 +5,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Added — 2026-10-31
+- New **andy-video-director** unified video orchestration Skill with 22 verified source candidates, route selection, runtime doctor, pinned upstream bootstrap and BB-Video project scaffold.
+- Complete pinned BB-Video source available on demand with 30 styles and original MIT notice; official MoneyPrinterTurbo and Remotion Skill packs can be staged on demand.
+- Deterministic routing unit tests and CI. Existing 12 Skills are preserved.
+
+
 ## [1.0.0] - 2026-08-14
 
 ### Added
