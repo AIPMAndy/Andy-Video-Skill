@@ -159,7 +159,10 @@ def bootstrap(engine_id: str, destination: Path, execute: bool, force: bool) -> 
     with tempfile.TemporaryDirectory(prefix="andy-video-upstream-") as temp:
         src = Path(temp) / "repo"
         url = "https://github.com/" + e["repo"] + ".git"
-        subprocess.run(["git", "clone", "--quiet", "--depth", "1", url, str(src)], check=True)
+        subprocess.run(["git", "init", "-q", str(src)], check=True)
+        subprocess.run(["git", "-C", str(src), "remote", "add", "origin", url], check=True)
+        subprocess.run(["git", "-C", str(src), "fetch", "--quiet", "--depth", "1", "origin", e["ref"]], check=True)
+        subprocess.run(["git", "-C", str(src), "checkout", "--quiet", "--detach", "FETCH_HEAD"], check=True)
         actual = subprocess.check_output(["git", "-C", str(src), "rev-parse", "HEAD"], text=True).strip()
         if actual != e["ref"]:
             raise RuntimeError("Upstream HEAD moved. Pinned commit mismatch; review and update registry intentionally.")
