@@ -25,7 +25,7 @@ done
 # Check each category README
 echo ""
 echo "--- Category READMEs ---"
-for cat in 01-programmatic-animation 02-recording-to-video 03-code-to-video 04-script-and-planning 05-stylized-effects; do
+for cat in 00-orchestration 01-programmatic-animation 02-recording-to-video 03-code-to-video 04-script-and-planning 05-stylized-effects; do
   if [[ -f "$cat/README.md" ]]; then
     echo "[OK]      $cat/README.md"
   else
@@ -69,9 +69,14 @@ for f in showcase/index.html showcase/assets/css/styles.css showcase/assets/js/m
 done
 
 DETAIL_COUNT=$(find showcase/skills -name "*.html" -type f 2>/dev/null | wc -l)
-echo "[INFO]    showcase skill detail pages: $DETAIL_COUNT (expected: 12)"
+echo "[INFO]    showcase skill detail pages: $DETAIL_COUNT (expected: 13)"
 
 echo ""
+if [[ $DETAIL_COUNT -ne 13 ]]; then
+  echo "[MISMATCH] expected 13 showcase detail pages; found $DETAIL_COUNT"
+  ERRORS=$((ERRORS+1))
+fi
+
 if [[ $ERRORS -eq 0 ]]; then
   echo "✓ All checks passed"
   exit 0
