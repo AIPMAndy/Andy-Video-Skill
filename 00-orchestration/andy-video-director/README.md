@@ -48,3 +48,11 @@ Use a secure GitHub connection and verify the pinned commit. Third-party depende
 - External code is not executed by merely planning or staging. Explicit execute flags exist for bootstrap and BB scaffolding.
 - BB-Video © 2026 Dylan Deng, MIT. Its root LICENSE is preserved on installation.
 - A video's third-party media, voice, model weights, trademarks and faces may carry restrictions beyond source code license.
+
+## QA for actual rendered MP4
+
+```bash
+python3 00-orchestration/andy-video-director/director.py qa --file ./videos/final.mp4 --aspect 9:16 --require-audio
+```
+
+This checks ffprobe container metadata, streams and aspect. It cannot replace human review of caption timing, facts, scene continuity, black frames or style quality.
