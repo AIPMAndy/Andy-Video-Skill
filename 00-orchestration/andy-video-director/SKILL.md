@@ -93,3 +93,7 @@ The CLI emits structured JSON. plan = deterministic routing, doctor = runtime pr
 ## Adding new high-value GitHub projects
 
 Adopt upstream only after checking: official source, license + weight terms, useful differentiating capability, working command/API, verified sample output, hardware/cost, privacy, maintenance and security. Pin commits for reviewed skill packages; never auto-update arbitrary upstream code. Preserve upstream copyright and names. Do not inflate the official working Skill count with untested adapter candidates.
+
+## Machine-check an actually rendered video
+
+After rendering, run: python3 00-orchestration/andy-video-director/director.py qa --file /path/to/video.mp4 --aspect 9:16 --require-audio. A passing result proves only basic metadata; inspect actual frames, speech, captions, source facts and licensing too.
