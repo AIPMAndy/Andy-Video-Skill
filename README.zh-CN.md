@@ -2,17 +2,17 @@
 
 # Andy-Video-Skill
 
-**别再重新发明视频管线了。12 个精选 Skill，一次安装，立刻开工。**
+**别再重新发明视频管线了。13 个精选 Skill，一次安装，立刻开工。**
 
-为 Claude Code 精选的 12 个视频生成 Skill —— 把你的 AI Agent 变成视频工作室：3Blue1Brown 风格动画、爆款短视频、React → MP4、纸质拼贴解说视频……
+为 Claude Code 精选的 13 个视频 Skill —— 把你的 AI Agent 变成视频工作室：3Blue1Brown 风格动画、爆款短视频、React → MP4、纸质拼贴解说视频……
 
 [在线 Showcase](https://AIPMAndy.github.io/Andy-Video-SKill/) · [快速开始](#-3-分钟上手) · [English](./README.md)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/AIPMAndy/Andy-Video-SKill.svg)](https://github.com/AIPMAndy/Andy-Video-SKill/stargazers)
 [![Last commit](https://img.shields.io/github/last-commit/AIPMAndy/Andy-Video-SKill.svg)](https://github.com/AIPMAndy/Andy-Video-SKill/commits/main)
-[![Skills](https://img.shields.io/badge/skills-12-blueviolet)](#-5-类目--12-skill--一次安装)
-[![Categories](https://img.shields.io/badge/categories-5-blue)](#-5-类目--12-skill--一次安装)
+[![Skills](https://img.shields.io/badge/skills-13-blueviolet)](#-5-类目--12-skill--一次安装)
+[![Categories](https://img.shields.io/badge/categories-6-blue)](#-5-类目--12-skill--一次安装)
 
 ![Hero — 12 个 Skill × 5 个类目，一次安装](./showcase/assets/images/hero.png)
 
@@ -30,14 +30,15 @@
 - **纸质拼贴风格** 要手调 Canvas 数学
 - 每一个都是独立一周的踩坑
 
-**Andy-Video-SKill 把这 12 套工作流收敛到一个 `cp -r`。** 每一个 Skill 都经过真实发布视频的压力测试 —— 不是玩具 demo。
+**Andy-Video-SKill 把这 13 套工作流收敛到一个 `cp -r`。** 每一个 Skill 都经过真实发布视频的压力测试 —— 不是玩具 demo。
 
 ---
 
-## 5 类目 · 12 Skill · 一次安装
+## 6 类目 · 13 Skill · 一次安装
 
 | # | 类目 | 数量 | 解锁能力 |
 |---|------|:----:|----------|
+| 00 | **视频统一调度** | 1 | 一句话路由视频引擎；按需安装完整 BB-Video、Remotion、MoneyPrinterTurbo Agent Skills |
 | 01 | **程序化动画** | 4 | 3Blue1Brown 数学 · p5.js 生成艺术 · Three.js 液态金属 · Matrix 数字雨 |
 | 02 | **录屏转视频** | 1 | 长录像 → 100+ 平台原生爆款短视频 |
 | 03 | **代码转视频** | 3 | React 组件 → MP4 · Apple 风知识页 · AI 制片流水线 |
@@ -51,6 +52,14 @@
 ---
 
 ## 🚀 3 分钟上手
+
+**新增 [andy-video-director](./00-orchestration/andy-video-director/)**：统一入口、需求识别、环境预检、工具调度与实际 Agent 工作流交接，按审定的 Git 提交安装 BB-Video 全量引擎（含 **30 种视觉风格**）、MoneyPrinterTurbo、Remotion。**22 个项目/技能是调度候选索引，不能等同于 22 个已安装或已验证出片的工具。**
+
+```bash
+python3 00-orchestration/andy-video-director/director.py plan --request "把开源项目做成产品发布片"
+# 可选显式联网安装：./scripts/install-all.sh --with-upstreams
+```
+
 
 ```bash
 # 1. 克隆仓库
