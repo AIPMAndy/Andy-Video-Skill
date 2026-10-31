@@ -112,8 +112,19 @@ def route(request: str, gpu: bool = False, prefer: str | None = None, offline: b
         "comfyui": ["wan2.2", "ltx-2", "bb-video"],
         "andy-screencast-to-viral": ["auto-editor", "moviepy"],
     }.get(primary, ["bb-video", "react-video"])
+    skill_dir = installed_path(e) if e["kind"] in ("agent-skill", "agent-skill-pack", "builtin-skill") else None
+    entrypoint = None
+    if skill_dir is not None:
+        if e["kind"] == "agent-skill-pack":
+            entrypoint = skill_dir / "remotion-best-practices" / "SKILL.md"
+        else:
+            for candidate in ("SKILL.md", "skill.md"):
+                if (skill_dir / candidate).is_file():
+                    entrypoint = skill_dir / candidate
+                    break
     return {
         "request": request, "selected": primary, "selected_repo": e["repo"],
+        "entrypoint": str(entrypoint) if entrypoint else None,
         "selected_kind": e["kind"], "status": availability(e), "reason": reason,
         "needs_gpu": e["hardware"] == "gpu", "offline_requested": offline,
         "stages": steps, "fallbacks": fallbacks,
@@ -221,6 +232,52 @@ def scaffold(request: str, project: Path, style: str, execute: bool, gpu: bool) 
     return result
 
 
+
+def qa_video(filepath: Path, expected_aspect: str | None = None, require_audio: bool = False) -> dict:
+    """Check actual container metadata; pass != aesthetic/factual quality proof."""
+    path = filepath.expanduser().resolve()
+    if not path.is_file():
+        raise FileNotFoundError("Video file not found: " + str(path))
+    if not shutil.which("ffprobe"):
+        raise RuntimeError("ffprobe is required for media QA")
+    cp = subprocess.run(
+        ["ffprobe", "-v", "error", "-show_entries",
+         "format=duration,size:stream=codec_type,codec_name,width,height,avg_frame_rate",
+         "-of", "json", str(path)],
+        text=True, capture_output=True, check=True,
+    )
+    data = json.loads(cp.stdout)
+    streams = data.get("streams") or []
+    videos = [x for x in streams if x.get("codec_type") == "video"]
+    audios = [x for x in streams if x.get("codec_type") == "audio"]
+    failures = []
+    if not videos:
+        failures.append("Missing video stream")
+    if require_audio and not audios:
+        failures.append("Requested audio stream missing")
+    duration = float((data.get("format") or {}).get("duration") or 0)
+    if duration <= 0:
+        failures.append("Invalid duration")
+    w = int(videos[0].get("width") or 0) if videos else 0
+    h = int(videos[0].get("height") or 0) if videos else 0
+    if not w or not h:
+        failures.append("Invalid frame dimensions")
+    if expected_aspect:
+        try:
+            ax, ay = map(int, expected_aspect.split(":"))
+            if ax <= 0 or ay <= 0:
+                raise ValueError
+        except ValueError as exc:
+            raise ValueError("Aspect must be like 9:16 or 16:9") from exc
+        if w and h and abs(w / h - ax / ay) > 0.015:
+            failures.append("Actual frame aspect does not match requested aspect")
+    return {"status": "passed" if not failures else "failed", "file": str(path),
+            "duration_seconds": duration, "width": w, "height": h,
+            "video_codec": videos[0].get("codec_name") if videos else None,
+            "audio_streams": len(audios), "issues": failures,
+            "limits": "Container metadata only: inspect content, captions, claims, cuts, and visual quality separately."}
+
+
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(description="Andy Video Director: plan / doctor / bootstrap / scaffold")
     sub = p.add_subparsers(dest="command", required=True)
@@ -230,6 +287,10 @@ def main(argv=None) -> int:
     a.add_argument("--offline", action="store_true")
     a.add_argument("--prefer", choices=sorted(ENGINES))
     sub.add_parser("doctor", help="Inspect command availability; no dependency installation")
+    q = sub.add_parser("qa", help="Inspect a rendered video using ffprobe metadata")
+    q.add_argument("--file", type=Path, required=True)
+    q.add_argument("--aspect", choices=["16:9", "9:16", "1:1", "4:3", "3:4"])
+    q.add_argument("--require-audio", action="store_true")
     b = sub.add_parser("bootstrap", help="Pin and install a reviewed upstream Agent Skill")
     b.add_argument("engine", choices=sorted(x["id"] for x in REGISTRY["engines"] if x["kind"] in ("agent-skill", "agent-skill-pack")))
     b.add_argument("--dest", type=Path, default=Path.home() / ".claude" / "skills")
@@ -247,13 +308,15 @@ def main(argv=None) -> int:
             answer = route(args.request, args.gpu, args.prefer, args.offline)
         elif args.command == "doctor":
             answer = doctor()
+        elif args.command == "qa":
+            answer = qa_video(args.file, args.aspect, args.require_audio)
         elif args.command == "bootstrap":
             answer = bootstrap(args.engine, args.dest, args.execute, args.force)
         else:
             answer = scaffold(args.request, args.project, args.style, args.execute, args.gpu)
         print(json.dumps(answer, ensure_ascii=False, indent=2))
         return 0
-    except (ValueError, RuntimeError, FileExistsError, OSError, subprocess.CalledProcessError) as exc:
+    except (ValueError, RuntimeError, FileExistsError, OSError, subprocess.CalledProcessError, json.JSONDecodeError) as exc:
         print(json.dumps({"error": str(exc), "status": "failed"}, ensure_ascii=False), file=sys.stderr)
         return 1
 
