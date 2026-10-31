@@ -1,0 +1,36 @@
+name: Video Director CI
+
+on:
+  pull_request:
+    paths:
+      - "00-orchestration/**"
+      - "scripts/install-all.sh"
+      - "scripts/verify.sh"
+      - ".github/workflows/video-director-ci.yml"
+  push:
+    paths:
+      - "00-orchestration/**"
+      - "scripts/install-all.sh"
+      - "scripts/verify.sh"
+      - ".github/workflows/video-director-ci.yml"
+
+jobs:
+  standard-library-unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Python 3 runtime
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile Python code
+        run: python -m py_compile 00-orchestration/andy-video-director/director.py
+      - name: Run deterministic routing tests
+        run: python -m unittest discover -s 00-orchestration/andy-video-director/tests -v
+      - name: Check registry and planner
+        run: |
+          python 00-orchestration/andy-video-director/director.py plan --request "知识科普短视频" > /tmp/video-plan.json
+          python -m json.tool /tmp/video-plan.json > /dev/null
+          python 00-orchestration/andy-video-director/director.py bootstrap bb-video > /tmp/video-dry-run.json
+          python -m json.tool /tmp/video-dry-run.json > /dev/null
+          bash scripts/verify.sh
