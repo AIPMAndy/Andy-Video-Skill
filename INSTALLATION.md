@@ -42,3 +42,23 @@ ls ~/.claude/skills/ | grep andy
 ```
 
 You should see the installed skills.
+
+## Unified video orchestration
+
+Installing this repo normally includes **13 local Skills**, including the Andy Video Director. The additional 22-source registry is **not** a claim that 22 engines are installed.
+
+```bash
+./scripts/install-all.sh
+python3 00-orchestration/andy-video-director/director.py plan --request "为我的产品做视频"
+python3 00-orchestration/andy-video-director/director.py doctor
+```
+
+To **explicitly opt in** to staging complete, reviewed and commit-pinned upstream Agent Skill packages (BB-Video's full renderer and 30 visual styles, MoneyPrinterTurbo and Remotion official Agent Skills):
+
+```bash
+./scripts/install-all.sh --with-upstreams
+# Or install just BB-Video:
+python3 00-orchestration/andy-video-director/director.py bootstrap bb-video --execute
+```
+
+Pinned bootstrap copies upstream source only. It does **not** install npm/Python dependencies, download model weights, configure providers or produce a finished video. Read upstream instructions, confirm cost/privacy/licenses and use the agent to run the selected runtime and QA.
