@@ -34,3 +34,30 @@ jobs:
           python 00-orchestration/andy-video-director/director.py bootstrap bb-video > /tmp/video-dry-run.json
           python -m json.tool /tmp/video-dry-run.json > /dev/null
           bash scripts/verify.sh
+
+  bb-upstream-integration-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install exact pinned upstream complete skill source
+        run: |
+          python3 00-orchestration/andy-video-director/director.py bootstrap bb-video --dest "$RUNNER_TEMP/skills" --execute
+          test -f "$RUNNER_TEMP/skills/bb-video/UPSTREAM_LICENSE"
+          test -f "$RUNNER_TEMP/skills/bb-video/styles/whiteboard/STYLE.md"
+          test -f "$RUNNER_TEMP/skills/bb-video/styles/launch/STYLE.md"
+          test -f "$RUNNER_TEMP/skills/bb-video/promo/scripts/render.mjs"
+          test -f "$RUNNER_TEMP/skills/bb-video/explainer/scripts/new.mjs"
+      - name: Actually run BB project generators in two modes
+        run: |
+          node "$RUNNER_TEMP/skills/bb-video/explainer/scripts/new.mjs" "$RUNNER_TEMP/whiteboard-demo" --style whiteboard
+          test -f "$RUNNER_TEMP/whiteboard-demo/index.html"
+          test -f "$RUNNER_TEMP/whiteboard-demo/storyboard.md"
+          node "$RUNNER_TEMP/skills/bb-video/promo/scripts/new.mjs" "$RUNNER_TEMP/promo-demo" --style launch
+          test -f "$RUNNER_TEMP/promo-demo/index.html"
+          test -f "$RUNNER_TEMP/promo-demo/shots.json"
