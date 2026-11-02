@@ -51,9 +51,11 @@
 
 ---
 
+> **V0.3（2026-11-02）：** [新增 8 个开源工具与组合调度说明](./00-orchestration/andy-video-director/INTEGRATIONS-V0.3.md)。CosyVoice、Motion、Anime.js、Blender MCP、librosa、Lottie Web、postprocessing、Three.js 已进入智能调度目录。现有 **13 个本地 Skill** 不变，候选索引增至 **30 项**。新增工具目前是**规划与调度候选**，尚未完成真实安装与出片验证。
+
 ## 🚀 3 分钟上手
 
-**新增 [andy-video-director](./00-orchestration/andy-video-director/)**：统一入口、需求识别、环境预检、工具调度与实际 Agent 工作流交接，按审定的 Git 提交安装 BB-Video 全量引擎（含 **30 种视觉风格**）、MoneyPrinterTurbo、Remotion。**22 个项目/技能是调度候选索引，不能等同于 22 个已安装或已验证出片的工具。**
+**新增 [andy-video-director](./00-orchestration/andy-video-director/)**：统一入口、需求识别、环境预检、工具调度与实际 Agent 工作流交接，按审定的 Git 提交安装 BB-Video 全量引擎（含 **30 种视觉风格**）、MoneyPrinterTurbo、Remotion。**30 个项目/技能是调度候选索引，不能等同于 22 个已安装或已验证出片的工具。**
 
 ```bash
 python3 00-orchestration/andy-video-director/director.py plan --request "把开源项目做成产品发布片"

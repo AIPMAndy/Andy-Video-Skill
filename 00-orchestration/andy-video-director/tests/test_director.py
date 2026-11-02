@@ -56,6 +56,40 @@ class DirectorTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             director.route("做教程", prefer="not-a-real-engine")
 
+    def test_v03_registry(self):
+        self.assertEqual(director.REGISTRY["version"], "0.3.0")
+        self.assertEqual(len(director.ENGINES), 30)
+        self.assertEqual(director.ENGINES["blender-mcp"]["repo"], "ahujasid/mcp-for-blender")
+        for name in ("cosyvoice", "motion", "animejs", "blender-mcp", "librosa", "lottie-web", "postprocessing", "threejs"):
+            self.assertEqual(director.availability(director.ENGINES[name]), "external-engine; setup required")
+
+    def test_v03_multistage_routing(self):
+        cases = [
+            ("给中文知识视频配音、生成字幕", "bb-video", {"cosyvoice", "whisperx"}),
+            ("用 Anime.js 做 UI 动效", "remotion-skills", {"animejs"}),
+            ("用 Motion 做界面动效", "remotion-skills", {"motion"}),
+            ("用 Blender MCP 做三维建模", "blender-mcp", {"ffmpeg / compatible renderer"}),
+            ("把视频按音乐节拍自动卡点", "bb-video", {"librosa"}),
+            ("用 three.js 做网页三维", "threejs", {"ffmpeg / compatible renderer"}),
+            ("用 Lottie 做矢量动画", "lottie-web", {"lottie-web"}),
+            ("给 React 动画加 bloom 辉光", "remotion-skills", {"postprocessing"}),
+        ]
+        for req, primary, ops in cases:
+            with self.subTest(request=req):
+                result = director.route(req)
+                self.assertEqual(result["selected"], primary)
+                self.assertEqual(result["pipeline_version"], "0.3.0")
+                self.assertEqual(result["stages"][-1]["stage"], "quality")
+                self.assertTrue(ops.issubset({step["operator"] for step in result["stages"]}))
+
+    def test_v03_not_automatically_installed(self):
+        result = director.route("用 Blender MCP 做三维建模")
+        self.assertTrue(result["needs_gpu"])
+        self.assertIn("GPU", result["reason"])
+        self.assertIn("setup required", result["status"])
+        with self.assertRaises(ValueError):
+            director.bootstrap("cosyvoice", Path("/tmp"), False, False)
+
     def test_bootstrap_is_dry_run(self):
         x = director.bootstrap("bb-video", Path("/tmp/andy-video-tests-destination"), False, False)
         self.assertIn("dry-run", x["status"])

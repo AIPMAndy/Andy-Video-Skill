@@ -1,5 +1,5 @@
 const SKILLS = [
-  { name: 'andy-video-director', cat: '00 · Video Orchestration', desc: 'One request → route engines; stage complete BB-Video, Remotion and MoneyPrinterTurbo Skills' },
+  { name: 'andy-video-director', cat: '00 · Video Orchestration', desc: 'V0.3: route 30 source candidates for video, Chinese TTS, motion, 3D and beat sync (external setup required)' },
   { name: 'andy-manim-video', cat: '01 · Programmatic Animation', desc: '3Blue1Brown-style math & AI animations using Manim' },
   { name: 'andy-p5js', cat: '01 · Programmatic Animation', desc: 'Creative p5.js particle and generative art animations' },
   { name: 'andy-liquid', cat: '01 · Programmatic Animation', desc: 'Three.js liquid metal and 3D bloom cinematic effects' },
