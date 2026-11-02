@@ -2,7 +2,7 @@
 
 # Andy-Video-Skill
 
-**One video request. 13 local Skills, unified routing across 22 verified video-related source entries.**
+**One video request. 13 local Skills, unified routing across 30 verified video-related source entries.**
 
 A curated catalog of 13 Skills for Claude Code that turn your AI agent into a video production studio — 3Blue1Brown animations, viral shorts, React-to-MP4, paper-collage explainers, and more.
 
@@ -51,9 +51,11 @@ If you've tried to make videos with Claude Code, you already know the pain:
 
 ---
 
+> **V0.3 (Nov 2, 2026):** [8 new verified upstream engine candidates](./00-orchestration/andy-video-director/INTEGRATIONS-V0.3.md) — CosyVoice, Motion, Anime.js, Blender MCP, librosa, Lottie Web, postprocessing and Three.js. Now **30 registry sources**, **13 existing local Skills**. Multi-stage planning is supported; new external runtimes are **not installed or render-verified**.
+
 ## 🚀 Quick Start (3 minutes)
 
-**Featured: [andy-video-director](./00-orchestration/andy-video-director/)** — a unified Agent Skill router with executable preflight, reviewed/pinned upstream install and real engine handoff. It can stage BB-Video's full renderer and all **30 styles**, MoneyPrinterTurbo and 12 official Remotion Agent Skills. The 22-item source registry is **not** 22 preinstalled engines or proof that every backend was rendered successfully.
+**Featured: [andy-video-director](./00-orchestration/andy-video-director/)** — a unified Agent Skill router with executable preflight, reviewed/pinned upstream install and real engine handoff. It can stage BB-Video's full renderer and all **30 styles**, MoneyPrinterTurbo and 12 official Remotion Agent Skills. The 30-item source registry is **not** 22 preinstalled engines or proof that every backend was rendered successfully.
 
 ```bash
 python3 00-orchestration/andy-video-director/director.py plan --request "Make a launch video for my AI product"

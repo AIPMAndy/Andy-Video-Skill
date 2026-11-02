@@ -37,6 +37,14 @@ WORDS = {
     "explainer": r"科普|知识视频|解释|原理|讲解|冷知识|教程|explain|education|whiteboard",
     "localize": r"视频翻译|配音翻译|多语言配音|翻译视频|localiz|dub|translate",
     "edit": r"去停顿|去静音|自动剪辑|跳剪|silence|autocut|auto.edit",
+    "blender": r"blender|三维建模|3d建模|3d 建模",
+    "threejs": r"three\.js|threejs|webgl|网页三维",
+    "motion_graphics": r"ui动效|界面动效|anime\.js|animejs|\bmotion\b|动画转场|微交互",
+    "lottie": r"lottie|矢量动画|json动画|json 动画",
+    "beat": r"音乐卡点|音乐节拍|自动卡点|跟着音乐|节奏同步|beat.sync|beat sync|music.sync",
+    "voiceover": r"配音|旁白|tts|语音合成|voiceover|narration",
+    "visual_fx": r"辉光|景深|\bbloom\b|postprocessing|后期特效",
+    "captions_only": r"生成字幕|自动字幕|加字幕|字幕对齐|caption|subtitle",
 }
 STYLE_RE = re.compile(r"^[a-z][a-z0-9-]{1,35}$")
 
@@ -77,7 +85,13 @@ def route(request: str, gpu: bool = False, prefer: str | None = None, offline: b
         primary = "wan2.2" if gpu else "comfyui"
     elif tags["math"]:
         primary = "andy-manim-video"
-    elif tags["react"]:
+    elif tags["blender"]:
+        primary = "blender-mcp"
+    elif tags["threejs"]:
+        primary = "threejs"
+    elif tags["lottie"] and not tags["product"]:
+        primary = "lottie-web"
+    elif tags["react"] or tags["motion_graphics"] or tags["visual_fx"]:
         primary = "remotion-skills"
     elif tags["product"]:
         primary = "bb-video"
@@ -96,12 +110,26 @@ def route(request: str, gpu: bool = False, prefer: str | None = None, offline: b
         {"stage": "storyboard", "operator": "agent", "action": "Write evidence-backed script, shots, title and visual information map.", "status": "planned"},
         {"stage": "production", "operator": primary, "action": "Read the selected Skill/engine's own instructions; set up dependencies and execute locally if available.", "status": availability(ENGINES[primary])},
     ]
-    if tags["recording"] or tags["localize"]:
-        steps.insert(1, {"stage": "transcript", "operator": "whisperx", "action": "Optional word timestamps and speaker separation for existing speech.", "status": availability(ENGINES["whisperx"])})
-    if primary not in ("bb-video", "moneyprinterturbo-video") and (tags["explainer"] or tags["short"]):
+    if tags["recording"] or tags["localize"] or tags["captions_only"]:
+        steps.insert(1, {"stage": "transcript", "operator": "whisperx", "action": "When source speech exists, transcribe and align word timestamps.", "status": availability(ENGINES["whisperx"])})
+    if tags["beat"]:
+        steps.insert(-1, {"stage": "beat-analysis", "operator": "librosa", "action": "Analyze authorized user-supplied music before editing; actual timestamps require execution.", "status": availability(ENGINES["librosa"])})
+    if tags["motion_graphics"]:
+        motion_engine = "animejs" if re.search(r"anime\.js|animejs", request, re.IGNORECASE) else "motion"
+        steps.append({"stage": "motion", "operator": motion_engine, "action": "Compose the library in a real browser/React video renderer. A UI animation library alone does not produce an MP4.", "status": availability(ENGINES[motion_engine])})
+    if tags["visual_fx"]:
+        steps.append({"stage": "effects", "operator": "postprocessing", "action": "Configure actual WebGL effects after checking GPU and renderer compatibility.", "status": availability(ENGINES["postprocessing"])})
+    if tags["lottie"]:
+        steps.append({"stage": "vector", "operator": "lottie-web", "action": "Render licensed Lottie JSON and capture it into a video composition.", "status": availability(ENGINES["lottie-web"])})
+    chinese_voice = bool(re.search(r"中文|普通话|汉语|chinese|mandarin", request, re.IGNORECASE))
+    if tags["voiceover"] or (chinese_voice and (tags["explainer"] or tags["short"])):
+        steps.append({"stage": "voice", "operator": "cosyvoice", "action": "Optional local TTS; setup weights and compute, verify reference voice consent and audio output.", "status": availability(ENGINES["cosyvoice"])})
+    elif primary not in ("bb-video", "moneyprinterturbo-video") and (tags["explainer"] or tags["short"]):
         steps.append({"stage": "voice", "operator": "edge-tts", "action": "Optional consented online TTS (text goes to a third-party service).", "status": availability(ENGINES["edge-tts"])})
-    if tags["short"] or tags["recording"] or tags["localize"]:
-        steps.append({"stage": "captions", "operator": "whisperx", "action": "Create, align and inspect subtitles; avoid hallucinated captions.", "status": availability(ENGINES["whisperx"])})
+    if tags["short"] or tags["recording"] or tags["localize"] or tags["captions_only"]:
+        steps.append({"stage": "captions", "operator": "whisperx", "action": "Create, align and review subtitles; do not infer timings without audio.", "status": availability(ENGINES["whisperx"])})
+    if primary in ("blender-mcp", "threejs", "lottie-web"):
+        steps.append({"stage": "composition", "operator": "ffmpeg / compatible renderer", "action": "Render actual frames and compose a playable video, with rights and playback QA.", "status": "planned; renderer setup required"})
     steps.append({"stage": "quality", "operator": "agent + ffprobe", "action": "Verify duration, aspect ratio, codec, audio, black frames, safe area, citations and licensing.", "status": "planned"})
     e = ENGINES[primary]
     fallbacks = {
@@ -111,6 +139,9 @@ def route(request: str, gpu: bool = False, prefer: str | None = None, offline: b
         "wan2.2": ["ltx-2", "comfyui", "bb-video"],
         "comfyui": ["wan2.2", "ltx-2", "bb-video"],
         "andy-screencast-to-viral": ["auto-editor", "moviepy"],
+        "blender-mcp": ["threejs", "bb-video"],
+        "threejs": ["blender-mcp", "remotion-skills"],
+        "lottie-web": ["remotion-skills", "react-video"],
     }.get(primary, ["bb-video", "react-video"])
     skill_dir = installed_path(e) if e["kind"] in ("agent-skill", "agent-skill-pack", "builtin-skill") else None
     entrypoint = None
@@ -123,7 +154,9 @@ def route(request: str, gpu: bool = False, prefer: str | None = None, offline: b
                     entrypoint = skill_dir / candidate
                     break
     return {
-        "request": request, "selected": primary, "selected_repo": e["repo"],
+        "request": request, "pipeline_version": "0.3.0",
+        "candidate_registry_count": len(ENGINES),
+        "selected": primary, "selected_repo": e["repo"],
         "entrypoint": str(entrypoint) if entrypoint else None,
         "selected_kind": e["kind"], "status": availability(e), "reason": reason,
         "needs_gpu": e["hardware"] == "gpu", "offline_requested": offline,
@@ -137,7 +170,8 @@ def route(request: str, gpu: bool = False, prefer: str | None = None, offline: b
 def doctor() -> dict:
     binaries = {"git": "git", "node": "node", "python3": "python3",
                 "ffmpeg": "ffmpeg", "ffprobe": "ffprobe", "chrome": "google-chrome",
-                "chromium": "chromium", "nvidia-smi": "nvidia-smi", "uv": "uv"}
+                "chromium": "chromium", "nvidia-smi": "nvidia-smi", "uv": "uv",
+                "blender": "blender", "sox": "sox"}
     found = {k: shutil.which(cmd) for k, cmd in binaries.items()}
     chrome_env = os.environ.get("CHROME_PATH", "")
     if chrome_env and Path(chrome_env).is_file():

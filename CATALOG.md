@@ -1,6 +1,6 @@
 # Skill Catalog
 
-13 local Skills across 6 categories. The [22-source video engine registry](./00-orchestration/andy-video-director/registry.json) is a router index, not 22 installed Skills.
+13 local Skills across 6 categories. The [30-source video engine registry](./00-orchestration/andy-video-director/registry.json) is a router index, not 22 installed Skills.
 
 ## By Category
 
@@ -59,3 +59,7 @@ Upstream Agent Skill packs installable on demand: full BB-Video with 30 styles; 
 - **Node.js / Playwright**: ai-video-producer
 - **Python / FFmpeg**: andy-screencast-to-viral
 - **Logic analyzer / templates / methodology**: dbs-script-flow, duizhaochao-script-generator, mrbeast-skill
+
+## V0.3 external engine candidates
+
+Eight verified repositories were added for *planning only*: CosyVoice, Motion, Anime.js, Blender MCP, librosa, Lottie Web, postprocessing and Three.js. See [integration guide](./00-orchestration/andy-video-director/INTEGRATIONS-V0.3.md). These are **not installed Skills**.

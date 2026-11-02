@@ -1,7 +1,7 @@
 {
-  "version": "0.2.0",
-  "updated": "2026-10-31",
-  "policy": "Verified repository existence and documented roles. Listed engines are NOT automatically installed, executed, or performance-benchmarked. License and model-weight conditions may differ.",
+  "version": "0.3.0",
+  "updated": "2026-11-02",
+  "policy": "Repository existence and roles verified. Registry candidates are NOT automatically installed, rendered, or benchmarked; source, model, asset, and voice rights require independent review.",
   "engines": [
     {
       "id": "bb-video",
@@ -409,6 +409,134 @@
       "cost": "GPU/model dependent",
       "license": "review rights to faces/weights",
       "verified": "repository"
+    },
+    {
+      "id": "cosyvoice",
+      "name": "CosyVoice",
+      "repo": "QwenAudio/CosyVoice",
+      "kind": "model-engine",
+      "category": "voice",
+      "use": [
+        "chinese-tts",
+        "voiceover",
+        "narration"
+      ],
+      "hardware": "gpu",
+      "cost": "Local GPU and model weights; optional provider charges",
+      "license": "Review code and model weight terms; require consent for reference voices",
+      "verified": "public repository only; adapter and rendered output untested"
+    },
+    {
+      "id": "motion",
+      "name": "Motion",
+      "repo": "motiondivision/motion",
+      "kind": "processing-engine",
+      "category": "motion",
+      "use": [
+        "ui-motion",
+        "react",
+        "product-animation"
+      ],
+      "hardware": "cpu",
+      "cost": "Browser runtime/render",
+      "license": "Check upstream and media licenses",
+      "verified": "public repository only; adapter and rendered output untested"
+    },
+    {
+      "id": "animejs",
+      "name": "Anime.js",
+      "repo": "juliangarnier/anime",
+      "kind": "processing-engine",
+      "category": "motion",
+      "use": [
+        "timeline",
+        "svg",
+        "ui-animation"
+      ],
+      "hardware": "cpu",
+      "cost": "Browser runtime/render",
+      "license": "Review version and licensing",
+      "verified": "public repository only; adapter and rendered output untested"
+    },
+    {
+      "id": "blender-mcp",
+      "name": "Blender MCP",
+      "repo": "ahujasid/mcp-for-blender",
+      "kind": "mcp-server",
+      "category": "3d",
+      "use": [
+        "blender",
+        "3d",
+        "product-visual"
+      ],
+      "hardware": "gpu",
+      "cost": "Blender install and scene rendering",
+      "license": "Review MCP tool permissions, Blender add-ons and asset licenses",
+      "verified": "public repository only; adapter and rendered output untested"
+    },
+    {
+      "id": "librosa",
+      "name": "librosa",
+      "repo": "librosa/librosa",
+      "kind": "processing-engine",
+      "category": "audio-analysis",
+      "use": [
+        "beat",
+        "tempo",
+        "music-sync"
+      ],
+      "hardware": "cpu",
+      "cost": "Local Python",
+      "license": "Check upstream license and rights to music",
+      "verified": "public repository only; adapter and rendered output untested"
+    },
+    {
+      "id": "lottie-web",
+      "name": "Lottie Web",
+      "repo": "airbnb/lottie-web",
+      "kind": "processing-engine",
+      "category": "vector-animation",
+      "use": [
+        "lottie",
+        "json-animation",
+        "vector"
+      ],
+      "hardware": "cpu",
+      "cost": "Browser runtime/render",
+      "license": "Check rights to animation JSON assets",
+      "verified": "public repository only; adapter and rendered output untested"
+    },
+    {
+      "id": "postprocessing",
+      "name": "postprocessing",
+      "repo": "pmndrs/postprocessing",
+      "kind": "processing-engine",
+      "category": "visual-effects",
+      "use": [
+        "bloom",
+        "depth-of-field",
+        "webgl"
+      ],
+      "hardware": "gpu",
+      "cost": "Browser GPU/WebGL",
+      "license": "Check source/assets licensing",
+      "verified": "public repository only; adapter and rendered output untested"
+    },
+    {
+      "id": "threejs",
+      "name": "Three.js",
+      "repo": "mrdoob/three.js",
+      "kind": "processing-engine",
+      "category": "3d",
+      "use": [
+        "threejs",
+        "webgl",
+        "3d-scene"
+      ],
+      "hardware": "gpu",
+      "cost": "Browser GPU/WebGL",
+      "license": "Check 3D assets and source licensing",
+      "verified": "public repository only; adapter and rendered output untested"
     }
   ]
 }
