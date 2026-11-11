@@ -53,6 +53,17 @@ If you've tried to make videos with Claude Code, you already know the pain:
 
 > **V0.3 (Nov 2, 2026):** [8 new verified upstream engine candidates](./00-orchestration/andy-video-director/INTEGRATIONS-V0.3.md) — CosyVoice, Motion, Anime.js, Blender MCP, librosa, Lottie Web, postprocessing and Three.js. Now **30 registry sources**, **13 existing local Skills**. Multi-stage planning is supported; new external runtimes are **not installed or render-verified**.
 
+## New: evidence-first product launch videos (V0.4)
+
+**Make viewers understand the real product—not another rotating-phone template.** The Video Director now includes a 15-second launch workflow with a **complete real UI → actual click → verified result** shot sequence, voice-timing checks, privacy/claim gates, and a persistent review handoff.
+
+This is a **preproduction planning + asset validation tool**, not an unverified one-click video generator. You still need an installed BB-Video / Remotion renderer to produce a real MP4.
+
+**[Product Promo Playbook (中文)](./00-orchestration/andy-video-director/PRODUCT-PROMO.md)** · [Editable sample brief](./00-orchestration/andy-video-director/examples/product-launch-brief.json)
+
+    python3 00-orchestration/andy-video-director/director.py promo-init --brief my-brief.json --out ./videos/promo
+    python3 00-orchestration/andy-video-director/director.py promo-audit --plan ./videos/promo/product_promo_plan.json --assets-root .
+
 ## 🚀 Quick Start (3 minutes)
 
 **Featured: [andy-video-director](./00-orchestration/andy-video-director/)** — a unified Agent Skill router with executable preflight, reviewed/pinned upstream install and real engine handoff. It can stage BB-Video's full renderer and all **30 styles**, MoneyPrinterTurbo and 12 official Remotion Agent Skills. The 30-item source registry is **not** 22 preinstalled engines or proof that every backend was rendered successfully.
@@ -189,7 +200,7 @@ Browse the full Skill-by-Skill catalog: [CATALOG.md](./CATALOG.md).
 
 | Field | Value |
 |-------|-------|
-| **Description** | Curated catalog of 12 video-generation Skills for Claude Code — Manim, React Video, Screencast-to-Viral, and more. |
+| **Description** | Curated catalog of 13 video-production Skills for Claude Code — Manim, React Video, Screencast-to-Viral, and more. |
 | **Topics** | `claude-code` · `claude-skills` · `video-generation` · `manim` · `p5js` · `react-video` · `screencast-to-viral` · `ai-video` · `content-creation` · `open-source` |
 | **Website** | https://AIPMAndy.github.io/Andy-Video-SKill/ |
 | **Social Preview** | Use `./showcase/assets/images/hero.png` as the OG card |
