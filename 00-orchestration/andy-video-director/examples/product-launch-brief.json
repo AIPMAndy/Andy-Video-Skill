@@ -1,0 +1,32 @@
+{
+  "product_name": "Your Product",
+  "audience": "独立开发者 / 新用户",
+  "core_value": "用一次真实操作解决一个具体问题",
+  "pain_point": "从痛点开始，别堆功能",
+  "cta": "进入官网体验完整演示",
+  "platform": "Reels",
+  "aspect": "9:16",
+  "device_id": "primary-device",
+  "public_demo_data_confirmed": false,
+  "source_ui": {
+    "device": "assets/real-device.png",
+    "interaction": "assets/real-click-recording.mp4",
+    "result": "assets/real-result.png"
+  },
+  "on_screen": {
+    "device": "原来这件事可以更简单",
+    "interaction": "看一次真实操作",
+    "result": "结果就在这里"
+  },
+  "voiceover": {
+    "device": "先看这个问题。",
+    "interaction": "这是我真实操作产品的过程。",
+    "result": "这是产品给出的实际结果。"
+  },
+  "voice_files": {
+    "device": "audio/device.wav",
+    "interaction": "audio/interaction.wav",
+    "result": "audio/result.wav"
+  },
+  "claims": []
+}

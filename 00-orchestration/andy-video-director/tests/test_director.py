@@ -38,6 +38,19 @@ class DirectorTests(unittest.TestCase):
     def test_promo(self):
         self.assertEqual(director.route("给我做一个网站宣传片")["selected"], "bb-video")
 
+    def test_product_promo_gate(self):
+        result = director.route("给我们的 SaaS 做一个产品宣传片")
+        stages = {x["stage"] for x in result["stages"]}
+        self.assertEqual(result["product_promo"]["preview_seconds"], 15)
+        self.assertFalse(result["product_promo"]["rendered"])
+        self.assertTrue({"real-ui", "promo-brief", "voice-first", "sample", "promo-audit"}.issubset(stages))
+        self.assertEqual(result["stages"][-1]["stage"], "quality")
+
+    def test_non_product_is_not_forced_to_promo(self):
+        result = director.route("讲解数学知识的视频")
+        self.assertIsNone(result["product_promo"])
+        self.assertNotIn("promo-audit", {x["stage"] for x in result["stages"]})
+
     def test_short(self):
         self.assertEqual(director.route("一键成片的批量短视频")["selected"],
                          "moneyprinterturbo-video")

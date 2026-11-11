@@ -2,7 +2,17 @@
 
 One natural-language video request → route to the right upstream Skill, choose optional companions, set up reviewed pinned Skill files and execute through the actual producer.
 
-This is an **Agent Skill with an executable deterministic planner**, not a turnkey hosted model. It keeps the 12 existing Andy Skills intact and contains an audited registry of 22 video-related repositories/skills. Installed upstream Skills currently supported by the installer: **BB-Video**, **MoneyPrinterTurbo**, **Remotion Agent Skills**. Compute-heavy model repositories are cataloged routing targets only until independently set up.
+This is an **Agent Skill with an executable deterministic planner**, not a turnkey hosted model. It keeps the 13 bundled Andy Skills intact and contains a registry of 30 video-related source candidates. Installed upstream Skills currently supported by the installer: **BB-Video**, **MoneyPrinterTurbo**, **Remotion Agent Skills**. Compute-heavy model repositories are cataloged routing targets only until independently set up.
+
+## Product promo: real UI → 15-second preview → measurable QA (V0.4)
+
+Use the [evidence-first product video guide](./PRODUCT-PROMO.md) when making a launch or feature video for a real product. It turns a source-backed product brief into a 3-shot, 15-second plan (complete UI → real click → real result), includes an audio-duration and asset audit, and records handoff notes. It does **not** generate an MP4. Render with an installed upstream engine only after the audit passes.
+
+    cp 00-orchestration/andy-video-director/examples/product-launch-brief.json ./my-brief.json
+    python3 00-orchestration/andy-video-director/director.py promo-init --brief ./my-brief.json --out ./videos/my-product
+    python3 00-orchestration/andy-video-director/director.py promo-audit --plan ./videos/my-product/product_promo_plan.json --assets-root .
+
+The example intentionally fails readiness until real assets, measured narration, and public demo-data confirmation are supplied. Audit returns exit code 2 when blocked.
 
 ## Fast start
 

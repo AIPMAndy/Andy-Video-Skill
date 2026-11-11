@@ -5,6 +5,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Added — 2026-11-10 (V0.4 proposal)
+- Evidence-first product promo planning: deterministic 15-second real-UI shot sequence, clear CTA, machine-readable storyboard and protected handoff notes.
+- Asset and audio readiness audit (safe relative paths, public demo-data flag, claim references, single-device continuity and measured narration duration).
+- First-class product intent stages in Director, bilingual homepage links and a six-round product promo production guide.
+- Six additional standard-library unit tests. This release does not claim the planner renders an MP4 or that new external engines were installed.
+
+
 ### Added — 2026-11-02 (V0.3)
 - Expanded verified upstream registry from 22 to 30 projects, preserving all 13 bundled Skills.
 - Added deterministic multi-stage routing for Chinese TTS, UI motion, 3D, Lottie, audio beat detection and postprocessing.

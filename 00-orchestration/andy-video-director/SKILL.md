@@ -5,7 +5,7 @@ description: Unified video-production orchestrator for AI agents. Routes one nat
 
 # Andy Video Director — 一句话调度多套视频引擎
 
-You are an **execution orchestrator**, not a link directory. Read this contract, run the planner, and INVOKE the selected installed Skill or engine. Never say a finished video exists until the output file is created and verified. This repo has 12 existing Andy Skills; some external engines are cataloged but not installed.
+You are an **execution orchestrator**, not a link directory. Read this contract, run the planner, and INVOKE the selected installed Skill or engine. Never say a finished video exists until the output file is created and verified. This repo has 13 bundled Skills; 30 video resource candidates are indexed, but external engines are not assumed installed.
 
 ## Input → result contract
 
@@ -28,7 +28,7 @@ Target result: verified brief → storyboard → actual rendered video → optio
 | Need | Lead engine | Supporting tools | Execution prerequisite |
 |---|---|---|---|
 | Knowledge / history / science / Chinese explainer / visual storytelling | BB-Video | Built-in voice, sound, timing, QA | Pinned BB Skill, Node, Chrome, ffmpeg; Edge TTS may need network |
-| App / website / SaaS promo | BB-Video promo | Read-only real screenshots, beat-synced audio | Accessible real public site, no invented UI |
+| App / website / SaaS promo | BB-Video promo or Remotion | Verified real UI, voice-first 15s plan, continuity and proof audit | Real source assets, permitted public demo data, renderer setup |
 | React motion templates / dynamic charts / maps / reusable animation code | Remotion Agent Skills | Existing react-video | Skill pack plus actual Remotion runtime/project; license review |
 | Automatic topic → stock-footage short video | MoneyPrinterTurbo | Its official Agent Skill | External footage and providers might require keys or fees |
 | Course or screencast → many short videos | andy-screencast-to-viral | WhisperX, auto-editor | Existing Andy Skill and actual source recording |
@@ -40,7 +40,20 @@ Target result: verified brief → storyboard → actual rendered video → optio
 | Translation / dub | VideoLingo | ASR and subtitle review | Provider configuration and rights |
 | Silence cuts / trimming / composition | auto-editor, LosslessCut, MoviePy | FFmpeg | Check which tool is CLI-capable (LosslessCut is GUI-first) |
 
-The machine-readable registry contains 22 verified source repositories or local Skill entries. A candidate in registry.json is NOT a completed adapter or a preinstalled dependency. Use routing order defined in director.py: existing recording → avatar → localization → generated shots → math → React → software promo → stock short → general explainer. When preferred tool cannot satisfy constraints, explain and choose fallback.
+The machine-readable registry currently contains 30 source repositories or local Skill entries. A candidate in registry.json is NOT a completed adapter or a preinstalled dependency. Use routing order defined in director.py: existing recording → avatar → localization → generated shots → math → React → software promo → stock short → general explainer. When preferred tool cannot satisfy constraints, explain and choose fallback.
+
+## New: evidence-first product-promo gate (V0.4)
+
+If the request is a real App, website, SaaS or GitHub product promo, read [PRODUCT-PROMO.md](./PRODUCT-PROMO.md) and enforce this process before rendering:
+
+1. One audience + one value proposition + one real click-to-result path; delete unrelated features.
+2. Capture three actual product assets: complete device, real interaction in the same device, and actual result close-up. Confirm that demo data may be shown publicly.
+3. Copy examples/product-launch-brief.json and run director.py promo-init --brief PATH --out OUTPUT. This outputs a 15-second shot list and HANDOFF.md, **not** an MP4.
+4. Generate or record real voice tracks. Run director.py promo-audit --plan OUTPUT/product_promo_plan.json --assets-root ROOT and fix all blocking issues (CLI exit 2).
+5. Only then hand off to a properly installed and licensed renderer (Remotion/BB-Video); produce a playable 15-second sample and review it. Do not pretend this planner renders video.
+6. Lock approved shots and voice parameters in HANDOFF.md; iterate using timestamp-specific corrections before creating the longer deliverable. Finish with ffprobe and independent full-playback QA.
+
+The promo audit checks relative asset existence, source manifest, timeline, device-id continuity, measured voice duration when supplied, public-demo-data flag, and claim evidence references. It cannot visually certify authenticity or aesthetics. Optional generative real-world clips must never masquerade as the product UI.
 
 ## BB-Video: full engine, not just prompts
 

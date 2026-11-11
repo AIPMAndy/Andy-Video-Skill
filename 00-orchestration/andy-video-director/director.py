@@ -110,6 +110,14 @@ def route(request: str, gpu: bool = False, prefer: str | None = None, offline: b
         {"stage": "storyboard", "operator": "agent", "action": "Write evidence-backed script, shots, title and visual information map.", "status": "planned"},
         {"stage": "production", "operator": primary, "action": "Read the selected Skill/engine's own instructions; set up dependencies and execute locally if available.", "status": availability(ENGINES[primary])},
     ]
+    if tags["product"] and not (tags["recording"] or tags["generative"]):
+        steps[1:1] = [
+            {"stage": "real-ui", "operator": "agent", "action": "Run the product with public demo data. Capture full device, one real click path, and real result in the same device. Keep provenance.", "status": "planned"},
+            {"stage": "promo-brief", "operator": "promo-init", "action": "Create an evidence-first 15s device -> interaction -> result plan from a real asset manifest.", "status": "planned"},
+            {"stage": "voice-first", "operator": "agent + ffprobe", "action": "Render narration by paragraph, measure audio and adjust shot timing before final composition.", "status": "planned"},
+            {"stage": "sample", "operator": primary, "action": "Render and inspect a playable 15-second preview before scaling to a full launch video.", "status": "planned; no preview rendered"},
+            {"stage": "promo-audit", "operator": "promo-audit + human", "action": "Validate local UI assets, narration timing, clean demo data, claim evidence and screen legibility; preserve approved shots.", "status": "planned"},
+        ]
     if tags["recording"] or tags["localize"] or tags["captions_only"]:
         steps.insert(1, {"stage": "transcript", "operator": "whisperx", "action": "When source speech exists, transcribe and align word timestamps.", "status": availability(ENGINES["whisperx"])})
     if tags["beat"]:
@@ -161,6 +169,11 @@ def route(request: str, gpu: bool = False, prefer: str | None = None, offline: b
         "selected_kind": e["kind"], "status": availability(e), "reason": reason,
         "needs_gpu": e["hardware"] == "gpu", "offline_requested": offline,
         "stages": steps, "fallbacks": fallbacks,
+        "product_promo": ({
+            "preview_seconds": 15, "shot_chain": ["device", "interaction", "result"],
+            "brief_example": "00-orchestration/andy-video-director/examples/product-launch-brief.json",
+            "commands": ["promo-init", "promo-audit"], "rendered": False,
+        } if tags["product"] else None),
         "execution": ("Agent must follow " + e.get("skill_path", "upstream documentation") +
                       "; the plan is not a finished video."),
         "gate": "Require rights/licensing review and actual runtime checks; never claim rendered or benchmarked without evidence."
@@ -325,6 +338,12 @@ def main(argv=None) -> int:
     q.add_argument("--file", type=Path, required=True)
     q.add_argument("--aspect", choices=["16:9", "9:16", "1:1", "4:3", "3:4"])
     q.add_argument("--require-audio", action="store_true")
+    pinit = sub.add_parser("promo-init", help="Write a 15s evidence-first product promo plan; not an MP4")
+    pinit.add_argument("--brief", type=Path, required=True)
+    pinit.add_argument("--out", type=Path, required=True)
+    paudit = sub.add_parser("promo-audit", help="Validate real UI files and audio timing before render")
+    paudit.add_argument("--plan", type=Path, required=True)
+    paudit.add_argument("--assets-root", type=Path, required=True)
     b = sub.add_parser("bootstrap", help="Pin and install a reviewed upstream Agent Skill")
     b.add_argument("engine", choices=sorted(x["id"] for x in REGISTRY["engines"] if x["kind"] in ("agent-skill", "agent-skill-pack")))
     b.add_argument("--dest", type=Path, default=Path.home() / ".claude" / "skills")
@@ -344,11 +363,17 @@ def main(argv=None) -> int:
             answer = doctor()
         elif args.command == "qa":
             answer = qa_video(args.file, args.aspect, args.require_audio)
+        elif args.command in ("promo-init", "promo-audit"):
+            from promo_workflow import init as promo_init, audit as promo_audit
+            answer = (promo_init(args.brief, args.out) if args.command == "promo-init"
+                      else promo_audit(args.plan, args.assets_root))
         elif args.command == "bootstrap":
             answer = bootstrap(args.engine, args.dest, args.execute, args.force)
         else:
             answer = scaffold(args.request, args.project, args.style, args.execute, args.gpu)
         print(json.dumps(answer, ensure_ascii=False, indent=2))
+        if args.command == "promo-audit" and answer["status"] != "ready-for-render":
+            return 2
         return 0
     except (ValueError, RuntimeError, FileExistsError, OSError, subprocess.CalledProcessError, json.JSONDecodeError) as exc:
         print(json.dumps({"error": str(exc), "status": "failed"}, ensure_ascii=False), file=sys.stderr)

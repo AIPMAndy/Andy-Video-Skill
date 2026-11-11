@@ -24,7 +24,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Compile Python code
-        run: python -m py_compile 00-orchestration/andy-video-director/director.py
+        run: python -m py_compile 00-orchestration/andy-video-director/director.py 00-orchestration/andy-video-director/promo_workflow.py
       - name: Run deterministic routing tests
         run: python -m unittest discover -s 00-orchestration/andy-video-director/tests -v
       - name: Check registry and planner
@@ -34,6 +34,16 @@ jobs:
           python 00-orchestration/andy-video-director/director.py bootstrap bb-video > /tmp/video-dry-run.json
           python -m json.tool /tmp/video-dry-run.json > /dev/null
           bash scripts/verify.sh
+      - name: Promo planner smoke and expected blocked audit
+        run: |
+          python 00-orchestration/andy-video-director/director.py promo-init --brief 00-orchestration/andy-video-director/examples/product-launch-brief.json --out "$RUNNER_TEMP/promo"
+          python -m json.tool "$RUNNER_TEMP/promo/product_promo_plan.json" > /dev/null
+          set +e
+          python 00-orchestration/andy-video-director/director.py promo-audit --plan "$RUNNER_TEMP/promo/product_promo_plan.json" --assets-root "$RUNNER_TEMP" > "$RUNNER_TEMP/audit.json"
+          code=$?
+          set -e
+          test "$code" -eq 2
+          grep -q '"status": "blocked"' "$RUNNER_TEMP/audit.json"
 
   bb-upstream-integration-smoke:
     runs-on: ubuntu-latest
