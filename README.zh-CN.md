@@ -53,6 +53,19 @@
 
 > **V0.3（2026-11-02）：** [新增 8 个开源工具与组合调度说明](./00-orchestration/andy-video-director/INTEGRATIONS-V0.3.md)。CosyVoice、Motion、Anime.js、Blender MCP、librosa、Lottie Web、postprocessing、Three.js 已进入智能调度目录。现有 **13 个本地 Skill** 不变，候选索引增至 **30 项**。新增工具目前是**规划与调度候选**，尚未完成真实安装与出片验证。
 
+## 新增：商业级产品宣传片制作流程（V0.4）
+
+**产品宣传片最重要的不是特效，而是让陌生人看懂真实产品。**
+
+本次为统一调度器增加了「完整设备 → 真实点击 → 结果特写」15 秒样片规范，以及真实素材检查、公开演示数据门槛、配音实测时长、跨 Agent 交接和逐段锁定修改。
+
+**注意：这是一套可执行的分镜与素材质量门槛，不是已经接通的全自动 MP4 生成服务。** 真正渲染仍须使用已安装的 BB-Video、Remotion 等引擎。
+
+[查看完整产品宣传片指南](./00-orchestration/andy-video-director/PRODUCT-PROMO.md) · [复制可编辑 Brief](./00-orchestration/andy-video-director/examples/product-launch-brief.json)
+
+    python3 00-orchestration/andy-video-director/director.py promo-init --brief my-brief.json --out ./videos/promo
+    python3 00-orchestration/andy-video-director/director.py promo-audit --plan ./videos/promo/product_promo_plan.json --assets-root .
+
 ## 🚀 3 分钟上手
 
 **新增 [andy-video-director](./00-orchestration/andy-video-director/)**：统一入口、需求识别、环境预检、工具调度与实际 Agent 工作流交接，按审定的 Git 提交安装 BB-Video 全量引擎（含 **30 种视觉风格**）、MoneyPrinterTurbo、Remotion。**30 个项目/技能是调度候选索引，不能等同于 22 个已安装或已验证出片的工具。**
@@ -164,7 +177,7 @@ cp -r 01-programmatic-animation/andy-manim-video ~/.claude/skills/
 
 ## 架构 —— 这东西到底是什么
 
-**不是应用。** 是**内容库** —— 12 个目录的方法文档，Agent 来读。安装的最小单位是 Skill，不是 app。
+**不是应用。** 是**内容库** —— 13 个 Skill 的方法文档，Agent 来读。安装的最小单位是 Skill，不是 app。
 
 ```
 Andy-Video-SKill/
@@ -189,7 +202,7 @@ Andy-Video-SKill/
 
 | 字段 | 值 |
 |------|---|
-| **Description** | 为 Claude Code 精选的 12 个视频生成 Skill —— Manim、React Video、录屏转爆款等。 |
+| **Description** | 为 Claude Code 精选的 13 个视频生成 Skill —— Manim、React Video、录屏转爆款等。 |
 | **Topics** | `claude-code` · `claude-skills` · `video-generation` · `manim` · `p5js` · `react-video` · `screencast-to-viral` · `ai-video` · `内容创作` · `开源` |
 | **Website** | https://AIPMAndy.github.io/Andy-Video-SKill/ |
 | **Social Preview** | 用 `./showcase/assets/images/hero.png` 作为 OG 卡片 |
