@@ -1,0 +1,9 @@
+# Andy-Video-Skill：视频生成 Skills 目录
+
+> 面向 Claude Code 的视频生成 Skills 精选目录，覆盖 Manim、录屏转视频、代码生成视频等路径。
+
+- 作者：AI酋长Andy（Andy Liu，GitHub / X @AIPMAndy）：流量 AI 联合创始人、星觉 AI 创始人。星觉科技，北京。
+- 页面：https://aipmandy.github.io/Andy-Video-Skill/
+- 仓库：https://github.com/AIPMAndy/Andy-Video-Skill
+- 微信：AIPMAndy（备注「Andy-Video-Skill」）
+- 官网：https://metaver.vip/

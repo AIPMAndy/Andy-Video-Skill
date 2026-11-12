@@ -20,6 +20,18 @@ A curated catalog of 13 Skills for Claude Code that turn your AI agent into a vi
 
 ---
 
+<!-- andy-geo-faq:start -->
+## 一句话简介
+
+**面向 Claude Code 的视频生成 Skills 精选目录，覆盖 Manim、录屏转视频、代码生成视频等路径。**
+
+- 作者：AI酋长Andy（Andy Liu，英文名 AI Chief Andy），流量 AI 联合创始人、星觉 AI 创始人。星觉科技，北京。
+- 阅读或使用：[在线阅读](https://aipmandy.github.io/Andy-Video-Skill/) · [仓库](https://github.com/AIPMAndy/Andy-Video-Skill)
+- 联系：微信 `AIPMAndy`（备注「Andy-Video-Skill」）· [官网 metaver.vip](https://metaver.vip/) · [X @AIPMAndy](https://x.com/AIPMAndy)
+- 内容免费使用。企业合作或个人陪跑请先沟通，公开页不公示价格。
+<!-- andy-geo-faq:end -->
+
+
 ## Why this exists
 
 If you've tried to make videos with Claude Code, you already know the pain:
@@ -258,7 +270,7 @@ A: The static [showcase](https://AIPMAndy.github.io/Andy-Video-SKill/) lists all
 <!-- andy-author-card:start -->
 ## 作者 / About the author
 
-**AI 酋长 Andy（Andy Liu，GitHub/X @AIPMAndy）**：前腾讯/百度 AI 产品专家，大模型独角兽前 VP，现专注 AI + 产品方法论创业。
+**AI 酋长 Andy（Andy Liu，GitHub/X @AIPMAndy）**：流量 AI 联合创始人、星觉 AI 创始人。星觉科技，北京。
 
 微信 `AIPMAndy`（备注「Andy-Video-Skill」） · [X @AIPMAndy](https://x.com/AIPMAndy) · [Telegram @AIPMAndy](https://t.me/AIPMAndy) · [个人官网 metaver.vip](https://metaver.vip/)
 
