@@ -6,7 +6,7 @@
 
 为 Claude Code 精选的 13 个视频 Skill —— 把你的 AI Agent 变成视频工作室：3Blue1Brown 风格动画、爆款短视频、React → MP4、纸质拼贴解说视频……
 
-[在线 Showcase](https://AIPMAndy.github.io/Andy-Video-SKill/) · [快速开始](#-3-分钟上手) · [English](./README.md)
+[在线 Showcase](https://aipmandy.github.io/Andy-Video-Skill/) · [快速开始](#-3-分钟上手) · [English](./README.md)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/AIPMAndy/Andy-Video-SKill.svg)](https://github.com/AIPMAndy/Andy-Video-SKill/stargazers)
@@ -204,7 +204,7 @@ Andy-Video-SKill/
 |------|---|
 | **Description** | 为 Claude Code 精选的 13 个视频生成 Skill —— Manim、React Video、录屏转爆款等。 |
 | **Topics** | `claude-code` · `claude-skills` · `video-generation` · `manim` · `p5js` · `react-video` · `screencast-to-viral` · `ai-video` · `内容创作` · `开源` |
-| **Website** | https://AIPMAndy.github.io/Andy-Video-SKill/ |
+| **Website** | https://aipmandy.github.io/Andy-Video-Skill/ |
 | **Social Preview** | 用 `./showcase/assets/images/hero.png` 作为 OG 卡片 |
 
 ---
@@ -253,7 +253,7 @@ A：可以。但这里的每个 Skill 都经过一轮完整生产周期。你省
 A：每个 Skill 至少产出一条公开视频可验证。Manim 的两张帧图就是真发布视频的截帧。
 
 **Q：有 Web UI 吗？**
-A：[Showcase](https://AIPMAndy.github.io/Andy-Video-SKill/) 是静态浏览页。Skill 本身在 Claude Code 里跑，没有独立 app。
+A：[Showcase](https://aipmandy.github.io/Andy-Video-Skill/) 是静态浏览页。Skill 本身在 Claude Code 里跑，没有独立 app。
 
 ---
 

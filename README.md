@@ -214,7 +214,7 @@ Browse the full Skill-by-Skill catalog: [CATALOG.md](./CATALOG.md).
 |-------|-------|
 | **Description** | Curated catalog of 13 video-production Skills for Claude Code — Manim, React Video, Screencast-to-Viral, and more. |
 | **Topics** | `claude-code` · `claude-skills` · `video-generation` · `manim` · `p5js` · `react-video` · `screencast-to-viral` · `ai-video` · `content-creation` · `open-source` |
-| **Website** | https://AIPMAndy.github.io/Andy-Video-SKill/ |
+| **Website** | https://aipmandy.github.io/Andy-Video-Skill/ |
 | **Social Preview** | Use `./showcase/assets/images/hero.png` as the OG card |
 
 ---
@@ -263,7 +263,7 @@ A: You can. But each Skill here is the output of one full production cycle. You'
 A: Each Skill has shipped at least one public video we can show. See `killer-feature-manim*.png` above for the Manim examples.
 
 **Q: Is there a web UI?**
-A: The static [showcase](https://AIPMAndy.github.io/Andy-Video-SKill/) lists all Skills. The Skills themselves run inside Claude Code — there is no separate app.
+A: The static [showcase](https://aipmandy.github.io/Andy-Video-Skill/) lists all Skills. The Skills themselves run inside Claude Code — there is no separate app.
 
 ---
 
