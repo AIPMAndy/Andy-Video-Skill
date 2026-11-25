@@ -88,7 +88,7 @@ main {
   margin-bottom: 1rem;
 }
 
-.card h3 {
+.card h2 {
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--accent);

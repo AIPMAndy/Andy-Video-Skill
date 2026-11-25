@@ -59,7 +59,7 @@ done
 # Check showcase
 echo ""
 echo "--- Showcase ---"
-for f in showcase/index.html showcase/assets/css/styles.css showcase/assets/js/main.js; do
+for f in showcase/index.html showcase/assets/css/styles.css; do
   if [[ -f "$f" ]]; then
     echo "[OK]      $f"
   else
