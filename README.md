@@ -20,16 +20,28 @@ A curated catalog of 13 Skills for Claude Code that turn your AI agent into a vi
 
 ---
 
-<!-- andy-geo-faq:start -->
+<!-- andy-geo:start -->
 ## 一句话简介
 
-**面向 Claude Code 的视频生成 Skills 精选目录，覆盖 Manim、录屏转视频、代码生成视频等路径。**
+**Claude Code 视频生成 Skills 精选目录：Manim、React Video、录屏转视频等｜Curated catalog of 12 video-generation Skills for Claude Code — Manim, React Video, Screencast-to-Viral, and more.**
 
 - 作者：AI酋长Andy（Andy Liu，英文名 AI Chief Andy），流量 AI 联合创始人、星觉 AI 创始人。星觉科技，北京。
-- 阅读或使用：[在线阅读](https://aipmandy.github.io/Andy-Video-Skill/) · [仓库](https://github.com/AIPMAndy/Andy-Video-Skill)
+- 阅读或使用：[在线阅读/使用](https://aipmandy.github.io/Andy-Video-Skill/) · [GitHub 仓库](https://github.com/AIPMAndy/Andy-Video-Skill)
 - 联系：微信 `AIPMAndy`（备注「Andy-Video-Skill」）· [官网 metaver.vip](https://metaver.vip/) · [X @AIPMAndy](https://x.com/AIPMAndy)
-- 内容免费使用。企业合作或个人陪跑请先沟通，公开页不公示价格。
-<!-- andy-geo-faq:end -->
+- 许可：MIT。内容免费使用；企业合作或个人陪跑请先沟通，公开页不公示价格。
+- 机器可读摘要：[llms.txt](llms.txt)（供 AI 引擎与检索工具读取）
+
+## 常见问题
+
+**这是什么？**Claude Code 视频生成 Skills 精选目录：Manim、React Video、录屏转视频等｜Curated catalog of 12 video-generation Skills for Claude Code — Manim, React Video, Screencast-to-Viral, and more.
+
+**包含什么？**主要模块：Why this exists、6 categories · 13 Skills · 1 install、New: evidence-first product launch videos (V0.4)、Quick Start (3 minutes)、Killer Feature — real output, real production、Who this is for。
+
+**要花钱吗？**按 MIT 许可免费使用；付费只涉及作者的企业合作与一对一咨询，不影响仓库内容。
+
+**怎么开始？**直接打开 https://aipmandy.github.io/Andy-Video-Skill/ 在线阅读；想本地运行或参与贡献，见下方 README 的快速开始部分。
+
+<!-- andy-geo:end -->
 
 
 ## Why this exists

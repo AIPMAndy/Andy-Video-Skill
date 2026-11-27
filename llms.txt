@@ -1,0 +1,50 @@
+# Andy-Video-Skill
+
+> Claude Code 视频生成 Skills 精选目录：Manim、React Video、录屏转视频等｜Curated catalog of 12 video-generation Skills for Claude Code — Manim, React Video, Screencast-to-Viral, and more.
+
+- 作者：AI酋长Andy（AIPMAndy），官网 https://metaver.vip/
+- 开源仓库：https://github.com/AIPMAndy/Andy-Video-Skill
+- 在线地址：https://aipmandy.github.io/Andy-Video-Skill/
+- 许可：MIT
+- 语言：中文（zh-CN）
+- 最近更新：2026-11-25
+
+## 这是什么
+
+One video request. 13 local Skills, unified routing across 30 verified video-related source entries.
+A curated catalog of 13 Skills for Claude Code that turn your AI agent into a video production studio — 3Blue1Brown animations, viral shorts, React-to-MP4, paper-collage explainers, and more.
+
+## 内容目录
+
+- Why this exists
+- 6 categories · 13 Skills · 1 install
+- New: evidence-first product launch videos (V0.4)
+- Quick Start (3 minutes)
+- Killer Feature — real output, real production
+- Who this is for
+- Installation — pick your mode
+- How a Skill works
+- Architecture — what this catalog actually is
+- Repository Metadata (suggestions)
+- Roadmap
+- Contributing
+- FAQ
+- 作者 / About the author
+- License
+- Credits
+
+## 关键事实
+
+- 名称：Andy-Video-Skill
+- 类型：中文开源项目
+- 许可：MIT
+- 语言：中文
+- 最近更新：2026-11-25
+- 仓库：https://github.com/AIPMAndy/Andy-Video-Skill
+
+## 相关链接
+
+- [作者官网](https://metaver.vip/)
+- [GitHub 主页](https://github.com/AIPMAndy/AIPMAndy)
+- [开源总目录](https://aipmandy.github.io/)
+- [机器可读摘要](https://aipmandy.github.io/Andy-Video-Skill/llms.txt)
